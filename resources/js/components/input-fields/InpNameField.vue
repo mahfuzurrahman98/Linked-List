@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 	<div class="mt-4">
 		<label class="tracking-wide text-gray-700 text-md mb-7" for="">
 			Store Name Displayed
@@ -16,4 +16,4 @@ const dataStore = useDataStore();
 
 <style>
 
-</style>
+</style> -->

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 	<div
 		v-if="dataStore.fieldsData.logo != ''"
 		class="flex justify-center mt-3 rounded-full"
@@ -64,4 +64,4 @@
 		border: 5px solid #ffffff;
 		text-transform: uppercase;
 	}
-</style>
+</style> -->

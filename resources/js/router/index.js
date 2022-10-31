@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Admin from "../views/Admin.vue";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
@@ -12,9 +13,14 @@ const router = createRouter({
             component: Home,
         },
         {
-            path: "/admin",
+            path: "/admin/:shop_id",
             name: "admin",
             component: Admin,
+        },
+        {
+            // path: "/:username",
+            // name: "admin",
+            // component: Admin,
         },
         {
             path: "/login",
