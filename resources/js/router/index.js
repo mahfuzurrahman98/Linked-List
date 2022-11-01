@@ -13,26 +13,43 @@ const router = createRouter({
             component: Home,
         },
         {
-            path: "/admin/:shop_id",
+            path: "/admin",
             name: "admin",
             component: Admin,
-        },
-        {
-            // path: "/:username",
-            // name: "admin",
-            // component: Admin,
+            meta: {
+                auth: true,
+            },
         },
         {
             path: "/login",
             name: "login",
             component: Login,
+            meta: {
+                auth: false,
+            },
         },
         {
             path: "/register",
             name: "register",
             component: Register,
+            meta: {
+                auth: false,
+            },
         },
     ],
 });
+
+// router.beforeEach((to, from, next) => {
+//     if (auth in to.meta) {
+//         // this route has auth
+//         if (to.meta.auth) {
+//             // only when user is authenticated
+//         } else {
+//             // only when user isn't authenticated
+//         }
+//     } else {
+//         // doesn't care about authentication
+//     }
+// });
 
 export default router;

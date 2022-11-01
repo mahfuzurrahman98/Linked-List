@@ -3,6 +3,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import axios from "axios";
 import { createPinia } from "pinia";
 import "tw-elements";
 import { createApp } from "vue";
@@ -21,5 +22,13 @@ app.use(pinia);
 app.use(router);
 
 app.component("font-awesome-icon", FontAwesomeIcon);
+
+if (localStorage.getItem("token")) {
+    axios.defaults.headers.common["Authorization"] =
+        "Bearer " + localStorage.getItem("token");
+    //get user data and set if valid, set auyth then
+} else {
+    delete axios.defaults.headers.common["Authorization"];
+}
 
 app.mount("#app");

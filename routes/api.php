@@ -64,3 +64,4 @@ Route::get('/get-shop-cards/{id}', [ShopAPIController::class, 'getShopCards']);
 Route::get('/get-shop-items/{id}', [FrontEndController::class, 'restorant2']);
 Route::get('/get-shop-view/{id}', [ShopAPIController::class, 'getShopView']);
 Route::get('/get-shop-text/{id}', [ShopAPIController::class, 'getShopText']);
+Route::get('/get-user-id/{username}', [AuthController::class, 'getUserByUsername']);

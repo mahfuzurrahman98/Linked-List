@@ -5,13 +5,13 @@
         <input
             type="email"
             name="email"
-            v-model="formData.email"
+            v-model="credentials.email"
             placeholder="enter email"
         /><br />
         <input
             type="password"
             name="password"
-            v-model="formData.password"
+            v-model="credentials.password"
             placeholder="enter password"
         /><br />
         <input type="submit" value="login" />
@@ -20,16 +20,39 @@
 
 <script setup>
 import axios from "axios";
-import router from "../../js/router";
+import { reactive } from "vue";
+import router from "../router";
+import { useDataStore } from "../stores";
 
-const formData = {
+const credentials = reactive({
     email: "",
     password: "",
+});
+
+const dataStore = useDataStore();
+
+const getUserData = async () => {
+    try {
+        let resp = await axios.get("/api/user", {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+                "Content-type": "application/json",
+            },
+        });
+        console.log(resp);
+        if (resp.status == 200) {
+            dataStore.user = resp.data;
+            dataStore.userAuthenticated = true;
+            router.push({ name: "admin" });
+        }
+    } catch (err) {
+        console.log(err);
+    }
 };
 
 const login = async () => {
     try {
-        let resp = await axios.post("/api/login", formData, {
+        let resp = await axios.post("/api/login", credentials, {
             headers: {
                 "Content-type": "application/json",
             },
@@ -37,10 +60,14 @@ const login = async () => {
         console.log(resp);
         if (resp.data.success) {
             localStorage.setItem("token", resp.data.data.token);
+            getUserData();
         }
-        router.push("/");
     } catch (err) {
-        console.log(err);
+        if (err.response.status == 401) {
+            alert(err.response.data.message);
+        } else {
+            alert("Internal server error");
+        }
     }
 };
 </script>

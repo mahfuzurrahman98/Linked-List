@@ -32,19 +32,17 @@ import axios from "axios";
 
 export const useDataStore = defineStore("data", {
     state: () => ({
-        server: "https://kwikz.app/",
-        // server: "http://127.0.0.1:8000/",
-        shopId: 19,
-        fonts: [
-            { id: 0, fontName: "San-serif", fontFamily: "sans-serif" },
-            { id: 1, fontName: "Serif", fontFamily: "serif" },
-            { id: 2, fontName: "Mono", fontFamily: "ubuntu" },
-        ],
+        userInfo: {},
         fields: [],
         refData: {
             uploadedLogo: "",
             uploadedImage: "",
             uploadedImages: [],
+            fonts: [
+                { id: 0, fontName: "San-serif", fontFamily: "sans-serif" },
+                { id: 1, fontName: "Serif", fontFamily: "serif" },
+                { id: 2, fontName: "Mono", fontFamily: "ubuntu" },
+            ],
             fieldsTypeMap: {
                 0: {
                     type: "Shop Card Text",

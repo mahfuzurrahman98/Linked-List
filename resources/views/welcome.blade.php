@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <div id="app">dsfsdf</div>
+  <div id="app"></div>
   @vite('resources/js/app.js')
   {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
 </body>
