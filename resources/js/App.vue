@@ -1,29 +1,52 @@
 <template>
-    <div class="bg-blue-400">Laravel9 and Vue3</div>
-    <router-link to="/">Home</router-link>
-    <router-link to="/login">Login</router-link>
-    <router-link to="/register">Register</router-link>
-    <a href="#" @click="logout">logout</a>
-
-    <router-view></router-view>
+    <BaseView />
 </template>
 
 <script setup>
+// import { useRoute } from "vue-router";
+import axios from "axios";
+import { onBeforeMount, onMounted } from "vue";
 import { useDataStore } from "./stores";
-const dataStore = useDataStore();
-dataStore.construct();
+import BaseView from "./views/BaseView.vue";
+// const route = useRoute();
+// console.log(route);
 
-const logout = async () => {
-    try {
-        let resp = await axios.post("/api/logout", {
-            Accept: "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-        });
-        console.log(resp);
-        localStorage.removeItem("token");
-        router.push("/login");
-    } catch (err) {
-        console.log(err);
+console.log("app created");
+// onBeforeMount
+onBeforeMount(async () => {
+    console.log("app before mounted");
+    if (localStorage.getItem("token")) {
+        console.log("yes");
+        axios.defaults.headers.common["Authorization"] =
+            "Bearer " + localStorage.getItem("token");
+        axios.defaults.headers.common["Accept"] = "application/json";
+
+        try {
+            let resp = await axios.get("/api/user", {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                    "Content-type": "application/json",
+                    Accept: "application/json",
+                },
+            });
+            console.log(resp);
+            if (resp.status == 200) {
+                const dataStore = useDataStore();
+                dataStore.user = resp.data;
+                dataStore.userAuthenticated = true;
+                console.log(dataStore.user);
+                // router.push({ name: "home" });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    } else {
+        console.log("no");
+        delete axios.defaults.headers.common["Authorization"];
     }
-};
+});
+
+onMounted(async () => {
+    console.log("app mounted");
+});
 </script>

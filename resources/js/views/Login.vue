@@ -37,6 +37,7 @@ const getUserData = async () => {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
                 "Content-type": "application/json",
+                Accept: "application/json",
             },
         });
         console.log(resp);
@@ -60,6 +61,9 @@ const login = async () => {
         console.log(resp);
         if (resp.data.success) {
             localStorage.setItem("token", resp.data.data.token);
+            axios.defaults.headers.common["Authorization"] =
+                "Bearer " + localStorage.getItem("token");
+            axios.defaults.headers.common["Accept"] = "application/json";
             getUserData();
         }
     } catch (err) {

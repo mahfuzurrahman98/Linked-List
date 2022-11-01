@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useDataStore } from "../stores";
 import Admin from "../views/Admin.vue";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
@@ -39,17 +40,36 @@ const router = createRouter({
     ],
 });
 
-// router.beforeEach((to, from, next) => {
-//     if (auth in to.meta) {
-//         // this route has auth
-//         if (to.meta.auth) {
-//             // only when user is authenticated
-//         } else {
-//             // only when user isn't authenticated
-//         }
-//     } else {
-//         // doesn't care about authentication
-//     }
-// });
+// route middlewares
+router.beforeEach((to, from, next) => {
+    const dataStore = useDataStore();
+    // console.log(to);
+    console.log(to.name);
+
+    if ("meta" in to && "auth" in to.meta) {
+        // this route has auth
+        if (to.meta.auth) {
+            // user must be authenticated
+            if (!dataStore.userAuthenticated) {
+                // but he/she isn't
+                next({ name: "login" });
+                // next("/login");
+            } else {
+                next();
+            }
+        } else {
+            // user must be unauthenticated
+            if (dataStore.userAuthenticated) {
+                // but he/she isn't
+                next({ name: "admin" });
+            } else {
+                next();
+            }
+        }
+    } else {
+        // doesn't care about authentication
+        next();
+    }
+});
 
 export default router;

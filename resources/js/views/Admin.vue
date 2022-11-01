@@ -1,6 +1,6 @@
 <template>
-    <!-- <TopNav />
-    <div class="grid grid-cols-3 gap-x-3 home-div">
+    <TopNav />
+    <!-- <div class="grid grid-cols-3 gap-x-3 home-div">
         <div class="col-span-3 lg:col-span-2">
             <Editor />
         </div>
@@ -8,12 +8,16 @@
             <Output />
         </div>
     </div> -->
-
+    <br />
+    <br />
     {{ dataStore.user }}
 </template>
 
 <script setup>
 import { onMounted } from "vue";
+// import Editor from "../components/Editor.vue";
+// import Output from "../components/Output.vue";
+import TopNav from "../components/TopNav.vue";
 import { useDataStore } from "../stores";
 
 const dataStore = useDataStore();

@@ -31,6 +31,7 @@
 </template>
 
 <script setup>
+import axios from "axios";
 import { reactive } from "vue";
 
 const formData = reactive({

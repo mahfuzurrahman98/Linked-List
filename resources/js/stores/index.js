@@ -32,7 +32,9 @@ import axios from "axios";
 
 export const useDataStore = defineStore("data", {
     state: () => ({
-        userInfo: {},
+        user: {},
+        userAuthenticated: false,
+        shopId: 19,
         fields: [],
         refData: {
             uploadedLogo: "",
@@ -70,7 +72,7 @@ export const useDataStore = defineStore("data", {
                     out: OutContactField,
                 },
                 5: {
-                    type: "Faqs",
+                    type: "Email",
                     inp: InpFaqsField,
                     out: OutFaqsField,
                 },
@@ -79,16 +81,10 @@ export const useDataStore = defineStore("data", {
                     inp: InpDescField,
                     out: OutDescField,
                 },
-                7: {
-                    type: "Faq",
-                    inp: InpFaqField,
-                    out: OutFaqField,
-                },
             },
             currentSelectedImage: -1,
             currentImagePropsId: -1,
             hasEmptyFields: false,
-            faqAleadyAdded: false,
             deletedFieldIndex: -1,
             deletedFieldPropsId: -1,
             deletedFieldType: -1,
@@ -215,20 +211,6 @@ export const useDataStore = defineStore("data", {
                 }
             });
             return videosData;
-        },
-        formattedFaqs() {
-            const faqsData = [];
-            this.fieldsData.faqs.forEach((faq, index) => {
-                if (faq.question != "" && faq.answer != "") {
-                    faqsData.push({
-                        shopId: this.shopId,
-                        propsId: index,
-                        question: faq.question,
-                        answer: faq.answer,
-                    });
-                }
-            });
-            return faqsData;
         },
         formattedDescriptions() {
             const descriptionsData = [];
