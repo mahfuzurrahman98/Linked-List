@@ -1,5 +1,6 @@
 <template>
     <div class="bg-blue-400">Laravel9 and Vue3</div>
+
     <div class="flex justify-evenly">
         <router-link to="/">Home</router-link>
         <router-link v-if="!dataStore.userAuthenticated" to="/login"
@@ -21,20 +22,25 @@
 
 <script setup>
 import axios from "axios";
+import router from "../router";
 import { useDataStore } from "../stores";
+
 const dataStore = useDataStore();
 
 const logout = async () => {
     try {
-        let resp = await axios.post("/api/logout", {
-            Accept: "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-        });
+        let resp = await axios.post("/api/logout");
         console.log(resp);
-        localStorage.removeItem("token");
-        dataStore.user = {};
+
+        dataStore.token = "";
         dataStore.userAuthenticated = false;
-        router.push("/login");
+        dataStore.user = {};
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("userAuthenticated");
+        localStorage.removeItem("user");
+
+        router.push({ name: "login" });
     } catch (err) {
         console.log(err);
     }
