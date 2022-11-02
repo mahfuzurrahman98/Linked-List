@@ -3,6 +3,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import axios from "axios";
 import { createPinia } from "pinia";
 import "tw-elements";
 import { createApp } from "vue";
@@ -39,6 +40,10 @@ window.onload = function () {
         localStorage.setItem("token", dataStore.token);
         localStorage.setItem("userAuthenticated", dataStore.userAuthenticated);
         localStorage.setItem("user", JSON.stringify(dataStore.user));
+        axios.defaults.headers.common["Authorization"] =
+            "Bearer " + localStorage.getItem("token");
+        axios.defaults.headers.common["Accept"] = "application/json";
+        // axios.defaults.headers.common["Content-type"] = "application/json";
     } else {
         // if any of the one isn't present
         // make all blank
@@ -49,6 +54,8 @@ window.onload = function () {
         localStorage.removeItem("token");
         localStorage.removeItem("userAuthenticated");
         localStorage.removeItem("user");
+
+        delete axios.defaults.headers.common["Authorization"];
     }
 };
 

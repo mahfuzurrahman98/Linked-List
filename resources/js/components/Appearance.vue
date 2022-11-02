@@ -31,9 +31,6 @@
         <div class="bg-white shadow-lg rounded p-3 mt-3">
             <component :is="dataStore.fieldsMap.font.inp" />
         </div>
-        <div class="bg-white shadow-lg rounded p-3 mt-3">
-            <component :is="dataStore.fieldsMap.fieldView.inp" />
-        </div>
     </div>
 </template>
 

@@ -7,7 +7,7 @@
             >
                 <img
                     :src="
-                        dataStore.imageServer +
+                        '/uploads/card_images/' +
                         dataStore.fieldsData.images[propsId].value
                     "
                     class="w-32 border-2 border-blue-600 rounded p-1"
@@ -88,7 +88,7 @@
                             >
                                 <img
                                     width="100"
-                                    :src="dataStore.imageServer + image.image"
+                                    :src="'/uploads/card_images/' + image.image"
                                     alt="ALT"
                                 />
                             </div>

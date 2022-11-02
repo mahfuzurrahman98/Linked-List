@@ -33,13 +33,7 @@ const dataStore = useDataStore();
 
 const getUserData = async () => {
     try {
-        let resp = await axios.get("/api/user", {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-                "Content-type": "application/json",
-                Accept: "application/json",
-            },
-        });
+        let resp = await axios.get("/api/user");
         console.log(resp);
         if (resp.status == 200) {
             dataStore.userAuthenticated = true;
@@ -70,6 +64,7 @@ const login = async () => {
             axios.defaults.headers.common["Authorization"] =
                 "Bearer " + localStorage.getItem("token");
             axios.defaults.headers.common["Accept"] = "application/json";
+            // axios.defaults.headers.common["Content-type"] = "application/json";
             getUserData();
         }
     } catch (err) {

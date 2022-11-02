@@ -275,34 +275,6 @@
                                 </div>
                             </div>
                         </li>
-                        <li
-                            class="flex gap-3 hover:bg-gray-100 p-3 rounded-lg cursor-pointer"
-                            @click="dataStore.addDescription()"
-                        >
-                            <div
-                                class="flex-1 flex justify-between items-center"
-                                data-bs-dismiss="modal"
-                            >
-                                <div>
-                                    <p class="font-bold">
-                                        <span class="mr-5">
-                                            <font-awesome-icon
-                                                icon="fa-solid fa-circle-info"
-                                            />
-                                        </span>
-                                        <span>Description</span>
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                        Add a description
-                                    </p>
-                                </div>
-                                <div class="font-bold text-[#6366F1]">
-                                    <font-awesome-icon
-                                        icon="fa-solid fa-circle-plus"
-                                    />
-                                </div>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </div>

@@ -7,10 +7,8 @@ import InpContactField from "../components/input-fields/InpContactField.vue";
 import InpDescField from "../components/input-fields/InpDescField.vue";
 import InpFaqField from "../components/input-fields/InpFaqField.vue";
 import InpFaqsField from "../components/input-fields/InpFaqsField.vue";
-import InpFieldsView from "../components/input-fields/InpFieldsView.vue";
 import InpFontField from "../components/input-fields/InpFontField.vue";
 import InpImageField from "../components/input-fields/InpImageField.vue";
-import InpItemField from "../components/input-fields/InpItemField.vue";
 import InpLinkField from "../components/input-fields/InpLinkField.vue";
 import InpLogoField from "../components/input-fields/InpLogoField.vue";
 import InpNameField from "../components/input-fields/InpNameField.vue";
@@ -22,7 +20,6 @@ import OutDescField from "../components/output-fields/OutDescField.vue";
 import OutFaqField from "../components/output-fields/OutFaqField.vue";
 import OutFaqsField from "../components/output-fields/OutFaqsField.vue";
 import OutImageField from "../components/output-fields/OutImageField.vue";
-import OutItemField from "../components/output-fields/OutItemField.vue";
 import OutLinkField from "../components/output-fields/OutLinkField.vue";
 import OutLogoField from "../components/output-fields/OutLogoField.vue";
 import OutNameField from "../components/output-fields/OutNameField.vue";
@@ -35,7 +32,7 @@ export const useDataStore = defineStore("data", {
         token: "",
         user: {},
         userAuthenticated: false,
-        shopId: 19,
+        userId: 19,
         fields: [],
         refData: {
             uploadedLogo: "",
@@ -47,11 +44,6 @@ export const useDataStore = defineStore("data", {
                 { id: 2, fontName: "Mono", fontFamily: "ubuntu" },
             ],
             fieldsTypeMap: {
-                0: {
-                    type: "Shop Card Text",
-                    inp: InpItemField,
-                    out: OutItemField,
-                },
                 1: {
                     type: "Link",
                     inp: InpLinkField,
@@ -77,11 +69,6 @@ export const useDataStore = defineStore("data", {
                     inp: InpFaqsField,
                     out: OutFaqsField,
                 },
-                6: {
-                    type: "Description",
-                    inp: InpDescField,
-                    out: OutDescField,
-                },
             },
             currentSelectedImage: -1,
             currentImagePropsId: -1,
@@ -92,11 +79,7 @@ export const useDataStore = defineStore("data", {
         },
         fieldsData: {
             selectedTab: "appearance",
-            logo: "",
-            name: "",
-            shopText: "",
-            subdomain: "",
-            bio: "",
+            user: {},
             style: {
                 color: "#000",
                 bgColorType: "solid",
@@ -111,10 +94,6 @@ export const useDataStore = defineStore("data", {
             images: [],
             videos: [],
             contacts: [],
-            faqs: [],
-            descriptions: [],
-            fieldsView: 1,
-            categories: [],
         },
         fieldsMap: {
             logo: { inp: InpLogoField, out: OutLogoField },
@@ -125,13 +104,8 @@ export const useDataStore = defineStore("data", {
             image: { inp: InpImageField, out: OutImageField },
             video: { inp: InpVideoField, out: OutVideoField },
             contact: { inp: InpContactField, out: OutContactField },
-            faqs: { inp: InpFaqsField, out: OutFaqsField },
-            faq: { inp: InpFaqField, out: OutFaqField },
-            desc: { inp: InpDescField, out: OutDescField },
             color: { inp: InpColorField },
             bgColor: { inp: InpBgColorField },
-            item: { out: OutItemField },
-            fieldView: { inp: InpFieldsView },
         },
     }),
     getters: {
@@ -148,7 +122,7 @@ export const useDataStore = defineStore("data", {
             const cardsData = [];
             this.fields.forEach((field, index) => {
                 cardsData.push({
-                    shopId: this.shopId,
+                    userId: this.user.id,
                     typeId: field.typeId,
                     positionId: index,
                     propsId: field.propsId,
@@ -163,7 +137,7 @@ export const useDataStore = defineStore("data", {
             this.fieldsData.links.forEach((link, index) => {
                 if (link.title != "" && link.value != "") {
                     linksData.push({
-                        shopId: this.shopId,
+                        userId: this.user.id,
                         propsId: link.propsId,
                         title: link.title,
                         value: link.value,
@@ -177,7 +151,7 @@ export const useDataStore = defineStore("data", {
             this.fieldsData.images.forEach((image, index) => {
                 if (image.title != "" && image.value != "") {
                     imagesData.push({
-                        shopId: this.shopId,
+                        userId: this.user.id,
                         propsId: index,
                         title: image.title,
                         value: image.value,
@@ -191,7 +165,7 @@ export const useDataStore = defineStore("data", {
             this.fieldsData.contacts.forEach((contact, index) => {
                 if (contact.value != "") {
                     contactsData.push({
-                        shopId: this.shopId,
+                        userId: this.user.id,
                         propsId: index,
                         value: contact.value,
                     });
@@ -204,7 +178,7 @@ export const useDataStore = defineStore("data", {
             this.fieldsData.videos.forEach((video, index) => {
                 if (video.title != "" && video.value != "") {
                     videosData.push({
-                        shopId: this.shopId,
+                        userId: this.user.id,
                         propsId: index,
                         title: video.title,
                         value: video.value,
@@ -213,40 +187,23 @@ export const useDataStore = defineStore("data", {
             });
             return videosData;
         },
-        formattedDescriptions() {
-            const descriptionsData = [];
-            this.fieldsData.descriptions.forEach((description, index) => {
-                if (description.title != "" && description.value != "") {
-                    descriptionsData.push({
-                        shopId: this.shopId,
-                        propsId: index,
-                        title: description.title,
-                        value: description.value,
-                    });
-                }
-            });
-            return descriptionsData;
-        },
         checkEmptyField() {
             // 0 for empty field, -1 for invalid video link, 1 for ok
             console.log("check empty callled");
 
-            if (this.fieldsData.style.color == "") {
-                return 3;
-            }
-            if (this.fieldsData.style.bgColor.color1 == "") {
-                return 4;
-            }
-            if (
-                this.fieldsData.style.bgColorType == "gradient" &&
-                this.fieldsData.style.bgColor.color2 == ""
-            ) {
-                return 5;
-            }
+            // if (this.fieldsData.style.color == "") {
+            //     return 3;
+            // }
+            // if (this.fieldsData.style.bgColor.color1 == "") {
+            //     return 4;
+            // }
+            // if (
+            //     this.fieldsData.style.bgColorType == "gradient" &&
+            //     this.fieldsData.style.bgColor.color2 == ""
+            // ) {
+            //     return 5;
+            // }
 
-            if (this.fieldsData.shopText == "") {
-                return 0;
-            }
             for (let i = 0; i < this.fields.length; i++) {
                 const field = this.fields[i];
                 if (field.typeId == 1) {
@@ -339,65 +296,22 @@ export const useDataStore = defineStore("data", {
             this.fieldsData.selectedTab = tab;
         },
         async getData() {
-            // console.log("api/" + "get-shop-theme/" + this.shopId);
+            // console.log("api/" + "get-theme/" + this.user.id);
             // return;
             let url = "";
-            // get name, logo, and bio
-            // url = this.apiServer + "get-shop-data/" + this.shopId;
-            // try {
-            // 	let data = await axios.get(url);
-            // 	data = data.data;
-            // 	console.log("datas: ", data);
-            // 	this.fieldsData.name = data.name;
-            // 	this.fieldsData.subdomain = data.subdomain;
-            // 	this.fieldsData.bio = data.description;
-            // 	this.fieldsData.logo =
-            // 		data.value != "" ? this.logoServer + data.value : "";
-            // 	console.log("getData: ", this.fieldsData.logo);
-            // } catch (error) {
-            // 	alert(error);
-            // }
 
-            // get cats
-            // url = this.apiServer + "get-shop-items/" + this.shopId;
-            // try {
-            //     let data = await axios.get(url);
-            //     data = data.data;
-            //     this.fieldsData.categories = data;
-            //     console.log("categor: ", data);
-            //     if (Object.keys(data).length > 0) {
-            //         console.log("ache");
-            //     } else {
-            //         console.log("blank");
-            //     }
-            // } catch (error) {
-            //     alert(error);
-            // }
-
-            // get fields view
-            // url = this.apiServer + "get-shop-view/" + this.shopId;
-            // try {
-            //     let data = await axios.get(url);
-            //     data = data.data;
-            //     console.log("view: ", data);
-            //     this.fieldsData.fieldsView = data;
-            // } catch (error) {
-            //     alert(error);
-            // }
-
-            // get online shop text
-            // url = this.apiServer + "get-shop-text/" + this.shopId;
-            // try {
-            //     let data = await axios.get(url);
-            //     data = data.data;
-            //     console.log("online: ", data);
-            //     this.fieldsData.shopText = data.text;
-            // } catch (error) {
-            //     alert(error);
-            // }
+            // get user data
+            url = "api/get-user/" + this.user.username;
+            try {
+                let data = await axios.get(url);
+                this.fieldsData.user = data.data;
+                console.log("user: ", data.data);
+            } catch (error) {
+                alert(error);
+            }
 
             // get style
-            url = this.apiServer + "get-shop-theme/" + this.shopId;
+            url = "api/get-theme/" + this.user.id;
             try {
                 let data = await axios.get(url);
                 data = JSON.parse(data.data.json);
@@ -407,7 +321,7 @@ export const useDataStore = defineStore("data", {
             }
 
             // get links
-            url = this.apiServer + "get-shop-links/" + this.shopId;
+            url = "api/get-links/" + this.user.id;
             try {
                 let data = await axios.get(url);
                 data = data.data;
@@ -423,11 +337,11 @@ export const useDataStore = defineStore("data", {
                 console.log("links: ", tempLinks);
                 this.fieldsData.links = tempLinks;
             } catch (error) {
-                alert("error gdfg");
+                alert("error links");
             }
 
             // get images
-            url = this.apiServer + "get-shop-images/" + this.shopId;
+            url = "api/get-images/" + this.user.id;
             try {
                 let data = await axios.get(url);
                 data = data.data;
@@ -446,7 +360,7 @@ export const useDataStore = defineStore("data", {
             }
 
             // get videos
-            url = this.apiServer + "get-shop-videos/" + this.shopId;
+            url = "api/get-videos/" + this.user.id;
             try {
                 let data = await axios.get(url);
                 data = data.data;
@@ -465,7 +379,7 @@ export const useDataStore = defineStore("data", {
             }
 
             // get contacts
-            url = this.apiServer + "get-shop-contacts/" + this.shopId;
+            url = "api/get-contacts/" + this.user.id;
             try {
                 let data = await axios.get(url);
                 data = data.data;
@@ -483,27 +397,8 @@ export const useDataStore = defineStore("data", {
                 alert(error);
             }
 
-            // get descriptions
-            url = this.apiServer + "get-shop-descriptions/" + this.shopId;
-            try {
-                let data = await axios.get(url);
-                data = data.data;
-
-                let tempDescriptions = [];
-                data.forEach((description, index) => {
-                    tempDescriptions[description.props_id] = {
-                        propsId: description.props_id,
-                        title: description.title,
-                        value: description.value,
-                    };
-                });
-                this.fieldsData.descriptions = tempDescriptions;
-            } catch (error) {
-                alert(error);
-            }
-
             // get cards
-            url = this.apiServer + "get-shop-cards/" + this.shopId;
+            url = "api/get-cards/" + this.user.id;
             try {
                 let data = await axios.get(url);
                 data = data.data;
@@ -552,30 +447,22 @@ export const useDataStore = defineStore("data", {
 
             // put name, bio, and logo
             let data = new FormData();
-            data.append("resto_wide_logo", this.refData.uploadedLogo);
-            data.append("name", this.fieldsData.name);
-            data.append("bio", this.fieldsData.bio);
+            data.append("u_logo", this.refData.uploadedLogo);
+            data.append("name", this.fieldsData.user.name);
+            data.append("bio", this.fieldsData.user.bio);
 
-            url = this.apiServer + "update-shop-data/" + this.shopId;
+            url = "api/update-user/" + this.user.id;
             try {
-                let resp = await axios.post(url, data, {
-                    headers: {
-                        "Content-type": "mutipart/form-data",
-                    },
-                });
+                let resp = await axios.post(url, data);
             } catch (error) {
                 alert(error);
                 return;
             }
 
             // put style
-            url = this.apiServer + "update-shop-theme/" + this.shopId;
+            url = "api/update-theme/" + this.user.id;
             try {
-                let resp = await axios.put(url, this.fieldsData.style, {
-                    headers: {
-                        "Content-type": "application/json",
-                    },
-                });
+                let resp = await axios.put(url, this.fieldsData.style);
                 console.log(resp);
             } catch (error) {
                 alert(error);
@@ -583,7 +470,7 @@ export const useDataStore = defineStore("data", {
             }
 
             // put links
-            url = this.apiServer + "update-shop-links/" + this.shopId;
+            url = "api/update-links/" + this.user.id;
             try {
                 let resp = await axios.put(url, this.formattedLinks, {
                     headers: {
@@ -597,7 +484,7 @@ export const useDataStore = defineStore("data", {
             }
 
             // put images
-            url = this.apiServer + "update-shop-images/" + this.shopId;
+            url = "api/update-images/" + this.user.id;
             try {
                 let resp = await axios.post(url, this.formattedImages, {
                     headers: {
@@ -611,7 +498,7 @@ export const useDataStore = defineStore("data", {
             }
 
             // put contacts
-            url = this.apiServer + "update-shop-contacts/" + this.shopId;
+            url = "api/update-contacts/" + this.user.id;
             try {
                 let resp = await axios.put(url, this.formattedContacts, {
                     headers: {
@@ -625,7 +512,7 @@ export const useDataStore = defineStore("data", {
             }
 
             // put videos
-            url = this.apiServer + "update-shop-videos/" + this.shopId;
+            url = "api/update-videos/" + this.user.id;
             try {
                 let resp = await axios.put(url, this.formattedVideos, {
                     headers: {
@@ -638,58 +525,8 @@ export const useDataStore = defineStore("data", {
                 return;
             }
 
-            // put fieldsview
-            url = this.apiServer + "update-shop-view/" + this.shopId;
-            try {
-                let resp = await axios.put(
-                    url,
-                    { view: this.fieldsData.fieldsView },
-                    {
-                        headers: {
-                            "Content-type": "application/json",
-                        },
-                    }
-                );
-                console.log(resp);
-            } catch (error) {
-                alert(error);
-                return;
-            }
-
-            // put online shop text
-            url = this.apiServer + "update-shop-text/" + this.shopId;
-            try {
-                let resp = await axios.put(
-                    url,
-                    { text: this.fieldsData.shopText },
-                    {
-                        headers: {
-                            "Content-type": "application/json",
-                        },
-                    }
-                );
-                console.log(resp);
-            } catch (error) {
-                alert(error);
-                return;
-            }
-
-            // put descriptions
-            url = this.apiServer + "update-shop-descriptions/" + this.shopId;
-            try {
-                let resp = await axios.put(url, this.formattedDescriptions, {
-                    headers: {
-                        "Content-type": "application/json",
-                    },
-                });
-                console.log(resp);
-            } catch (error) {
-                alert(error);
-                return;
-            }
-
             // put cards
-            url = this.apiServer + "update-shop-cards/" + this.shopId;
+            url = "api/update-cards/" + this.user.id;
             try {
                 let resp = await axios.put(url, this.formattedCards, {
                     headers: {
@@ -704,8 +541,7 @@ export const useDataStore = defineStore("data", {
             alert("Changes have been saved successfully");
         },
         async getAllImages() {
-            let url =
-                this.apiServer + "get-all-uploaded-shop-images/" + this.shopId;
+            let url = "api/get-all-uploaded-images/" + this.user.id;
             try {
                 let data = await axios.get(url);
                 data = data.data;
@@ -719,13 +555,9 @@ export const useDataStore = defineStore("data", {
             console.log("async uploadImage");
             let formData = new FormData();
             formData.append("u_image", this.refData.uploadedImage);
-            let url = this.apiServer + "upload-shop-image/" + this.shopId;
+            let url = "api/upload-image/" + this.user.id;
             try {
-                let resp = await axios.post(url, formData, {
-                    headers: {
-                        "Content-type": "multipart/form-data",
-                    },
-                });
+                let resp = await axios.post(url, formData);
                 console.log(resp);
                 this.getAllImages();
             } catch (error) {
@@ -752,7 +584,7 @@ export const useDataStore = defineStore("data", {
             if (!files.length) return;
 
             this.refData.uploadedLogo = files[0];
-            this.fieldsData.logo = URL.createObjectURL(files[0]);
+            this.fieldsData.user.logo = URL.createObjectURL(files[0]);
         },
         changeImageUploaded(e) {
             let files = e.target.files || e.dataTransfer.files;

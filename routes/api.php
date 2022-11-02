@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ShopAPIController;
 
 /*
@@ -32,36 +33,25 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // update routes
-    Route::put('/update-shop-theme/{id}', [ShopAPIController::class, 'updateShopTheme']);
-    Route::post('/update-shop-data/{id}', [RestorantController::class, 'updateShopData']);
-    Route::put('/update-shop-cards/{id}', [ShopAPIController::class, 'updateShopCards']);
-    Route::put('/update-shop-links/{id}', [ShopAPIController::class, 'updateShopLinks']);
-    Route::post('/update-shop-images/{id}', [ShopAPIController::class, 'updateShopImages']);
-    Route::put('/update-shop-videos/{id}', [ShopAPIController::class, 'updateShopVideos']);
-    Route::put('/update-shop-contacts/{id}', [ShopAPIController::class, 'updateShopContacts']);
-
-    Route::put('/update-shop-descriptions/{id}', [ShopAPIController::class, 'updateShopDescriptions']);
-    Route::post('/upload-shop-image/{id}', [ShopAPIController::class, 'uploadImages']);
-    Route::put('/update-shop-view/{id}', [ShopAPIController::class, 'updateShopView']);
-    Route::put('/update-shop-text/{id}', [ShopAPIController::class, 'updateShopText']);
-
-    Route::get('/insert-shop-view', [ShopAPIController::class, 'insertIntoShopView']);
+    Route::put('/update-theme/{id}', [ShopAPIController::class, 'updateShopTheme']);
+    Route::post('/update-user/{id}', [UserController::class, 'update']);
+    Route::put('/update-cards/{id}', [ShopAPIController::class, 'updateShopCards']);
+    Route::put('/update-links/{id}', [ShopAPIController::class, 'updateShopLinks']);
+    Route::post('/update-images/{id}', [ShopAPIController::class, 'updateShopImages']);
+    Route::put('/update-videos/{id}', [ShopAPIController::class, 'updateShopVideos']);
+    Route::put('/update-contacts/{id}', [ShopAPIController::class, 'updateShopContacts']);
+    Route::post('/upload-image/{id}', [ShopAPIController::class, 'uploadImages']);
 });
 
 
 // get routes
-Route::get('/get-shop-data/{id}', [ShopAPIController::class, 'getShopData']);
-Route::get('/get-shop-theme/{id}', [ShopAPIController::class, 'getShopTheme']);
-Route::get('/get-shop-links/{id}', [ShopAPIController::class, 'getShopLinks']);
-Route::get('/get-shop-images/{id}', [ShopAPIController::class, 'getShopImages']);
-Route::get('/get-shop-videos/{id}', [ShopAPIController::class, 'getShopVideos']);
-Route::get('/get-shop-contacts/{id}', [ShopAPIController::class, 'getShopContacts']);
+Route::get('/get-user/{username}', [UserController::class, 'show']);
+Route::get('/get-theme/{id}', [ShopAPIController::class, 'getShopTheme']);
+Route::get('/get-links/{id}', [ShopAPIController::class, 'getShopLinks']);
+Route::get('/get-images/{id}', [ShopAPIController::class, 'getShopImages']);
+Route::get('/get-videos/{id}', [ShopAPIController::class, 'getShopVideos']);
+Route::get('/get-contacts/{id}', [ShopAPIController::class, 'getShopContacts']);
 
-Route::get('/get-shop-descriptions/{id}', [ShopAPIController::class, 'getShopDescriptions']);
-Route::get('/get-all-uploaded-shop-images/{id}', [ShopAPIController::class, 'getAllImages']);
-Route::get('/get-shop-cards/{id}', [ShopAPIController::class, 'getShopCards']);
-
-Route::get('/get-shop-items/{id}', [FrontEndController::class, 'restorant2']);
-Route::get('/get-shop-view/{id}', [ShopAPIController::class, 'getShopView']);
-Route::get('/get-shop-text/{id}', [ShopAPIController::class, 'getShopText']);
-Route::get('/get-user-id/{username}', [AuthController::class, 'getUserByUsername']);
+Route::get('/get-descriptions/{id}', [ShopAPIController::class, 'getShopDescriptions']);
+Route::get('/get-all-uploaded-images/{id}', [ShopAPIController::class, 'getAllImages']);
+Route::get('/get-cards/{id}', [ShopAPIController::class, 'getShopCards']);
