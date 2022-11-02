@@ -43,7 +43,7 @@ const router = createRouter({
 // route middlewares
 router.beforeEach((to, from, next) => {
     const dataStore = useDataStore();
-    // console.log(to);
+    console.log(dataStore.user);
     console.log(to.name);
 
     if ("meta" in to && "auth" in to.meta) {
@@ -58,7 +58,7 @@ router.beforeEach((to, from, next) => {
                 next();
             }
         } else {
-            // user must be unauthenticated
+            // user must be un-authenticated
             if (dataStore.userAuthenticated) {
                 // but he/she isn't
                 next({ name: "admin" });

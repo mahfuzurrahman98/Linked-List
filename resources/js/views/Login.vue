@@ -42,8 +42,12 @@ const getUserData = async () => {
         });
         console.log(resp);
         if (resp.status == 200) {
-            dataStore.user = resp.data;
             dataStore.userAuthenticated = true;
+            localStorage.setItem("userAuthenticated", true);
+
+            dataStore.user = resp.data;
+            localStorage.setItem("user", JSON.stringify(resp.data));
+
             router.push({ name: "admin" });
         }
     } catch (err) {
@@ -60,7 +64,9 @@ const login = async () => {
         });
         console.log(resp);
         if (resp.data.success) {
+            dataStore.token = resp.data.data.token;
             localStorage.setItem("token", resp.data.data.token);
+
             axios.defaults.headers.common["Authorization"] =
                 "Bearer " + localStorage.getItem("token");
             axios.defaults.headers.common["Accept"] = "application/json";

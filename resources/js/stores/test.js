@@ -1,15 +1,9 @@
-let logo = "";
-let shopName = "testshopbd";
-// let shopName = "test shop bd";
-shopName = shopName.split(" ");
-// console.log(shopName.length);
+let data = {
+    user: {},
+};
 
-if (shopName.length == 1) {
-	logo = shopName[0][0].toUpperCase();
+if (data.user && Object.keys(data.user).length > 0) {
+    console.log(data.user);
 } else {
-	for (let i = 0; i < 2; i++) {
-		logo += shopName[i][0].toUpperCase();
-	}
+    console.log("Empty");
 }
-
-console.log(logo);

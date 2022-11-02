@@ -32,6 +32,7 @@ import axios from "axios";
 
 export const useDataStore = defineStore("data", {
     state: () => ({
+        token: "",
         user: {},
         userAuthenticated: false,
         shopId: 19,
