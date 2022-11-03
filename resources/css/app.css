@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.collapse {
+    visibility: unset;
+}
+.accordion-button {
+    color: #000;
+}
+.accordion-button:not(.collapsed) {
+    box-shadow: unset;
+    color: #000;
+}

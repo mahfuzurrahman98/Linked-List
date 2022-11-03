@@ -1,4 +1,5 @@
 <template>
+    see: <a href="">https://biomaker.com/{{ dataStore.user.username }}</a>
     <div
         class="md:w-[340px] h-screen md:h-[650px] mx-auto border-[7px] border-black rounded-[32px] px-3 items-center overflow-y-auto no-scrollbar pb-5 mt-5"
         :style="{
@@ -13,13 +14,7 @@
 
         <div v-for="(field, index) in dataStore.fields" class="">
             <component
-                v-if="
-                    field.typeId != 5 &&
-                    field.typeId != 0 &&
-                    field.typeId != 7 &&
-                    !field.deleted &&
-                    field.active
-                "
+                v-if="!field.deleted && field.active"
                 :is="field.out"
                 v-bind="sendProps(index)"
             />

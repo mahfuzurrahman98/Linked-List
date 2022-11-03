@@ -7,8 +7,8 @@ import axios from "axios";
 import { createPinia } from "pinia";
 import "tw-elements";
 import { createApp } from "vue";
+import "../css/app.css";
 import App from "./App.vue";
-import "./assets/main.css";
 import router from "./router";
 import { useDataStore } from "./stores";
 

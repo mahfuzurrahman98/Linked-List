@@ -99,179 +99,116 @@
         aria-labelledby="cardModalLabel"
         aria-hidden="true"
     >
-        <div class="modal-dialog relative w-auto pointer-events-none">
+        <div
+            class="modal-dialog modal-sm modal-dialog-centered relative w-auto pointer-events-none"
+        >
             <div
                 class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current"
             >
-                <div
-                    class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md"
-                >
-                    <h5
-                        class="text-xl font-medium leading-normal text-gray-800"
-                        id="cardModalLabel"
-                    >
-                        Add Card
-                    </h5>
-                    <button
-                        type="button"
-                        class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                    ></button>
-                </div>
                 <div class="modal-body relative p-4">
-                    <ul class="divide-y">
+                    <ul class="flex flex-col gap-y-2">
                         <li
-                            class="flex gap-3 hover:bg-gray-100 p-3 rounded-lg cursor-pointer"
+                            class="flex shadow-lg hover:bg-gray-200 p-3 rounded-lg cursor-pointer"
                             @click="dataStore.addLink()"
                         >
                             <div
-                                class="flex-1 flex justify-between items-center"
+                                class="flex gap-x-5 justify-between items-center"
                                 data-bs-dismiss="modal"
                             >
-                                <div>
-                                    <p class="font-bold">
-                                        <span class="mr-5">
-                                            <font-awesome-icon
-                                                icon="fa-solid fa-link"
-                                            />
-                                        </span>
-                                        <span> Link </span>
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                        Link to your important website or social
-                                        media
-                                    </p>
-                                </div>
-                                <div class="font-bold text-[#6366F1]">
+                                <div class="font-bold text-3xl">
                                     <font-awesome-icon
-                                        icon="fa-solid fa-circle-plus"
+                                        icon="fa-solid fa-globe"
                                     />
+                                </div>
+                                <div>
+                                    <p class="font-bold">Link</p>
+                                    <p class="text-xs text-gray-500">
+                                        Link your social profiles
+                                    </p>
                                 </div>
                             </div>
                         </li>
                         <li
-                            class="flex gap-3 hover:bg-gray-100 p-3 rounded-lg cursor-pointer"
+                            class="flex shadow-lg hover:bg-gray-200 p-3 rounded-lg cursor-pointer"
                             @click="dataStore.addImage()"
                         >
                             <div
-                                class="flex-1 flex justify-between items-center"
+                                class="flex gap-x-5 justify-between items-center"
                                 data-bs-dismiss="modal"
                             >
-                                <div>
-                                    <p class="font-bold">
-                                        <span class="mr-5">
-                                            <font-awesome-icon
-                                                icon="fa-solid fa-image"
-                                            />
-                                        </span>
-                                        <span> Image </span>
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                        Show image or banner
-                                    </p>
-                                </div>
-                                <div class="font-bold text-[#6366F1]">
+                                <div class="font-bold text-3xl">
                                     <font-awesome-icon
-                                        icon="fa-solid fa-circle-plus"
+                                        icon="fa-solid fa-image"
                                     />
+                                </div>
+                                <div>
+                                    <p class="font-bold">Image</p>
+                                    <p class="text-xs text-gray-500">
+                                        Upload your recent clicks
+                                    </p>
                                 </div>
                             </div>
                         </li>
                         <li
-                            class="flex gap-3 hover:bg-gray-100 p-3 rounded-lg cursor-pointer"
-                            @click="dataStore.addVideo()"
+                            class="flex shadow-lg hover:bg-gray-200 p-3 rounded-lg cursor-pointer"
+                            @click=""
                         >
                             <div
-                                class="flex-1 flex justify-between items-center"
+                                class="flex gap-x-5 justify-between items-center"
                                 data-bs-dismiss="modal"
                             >
-                                <div>
-                                    <p class="font-bold">
-                                        <span class="mr-5">
-                                            <font-awesome-icon
-                                                icon="fa-regular fa-circle-play"
-                                            />
-                                        </span>
-                                        <span>Video</span>
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                        Show youtube video
-                                    </p>
-                                </div>
-                                <div class="font-bold text-[#6366F1]">
+                                <div class="font-bold text-3xl">
                                     <font-awesome-icon
-                                        icon="fa-solid fa-circle-plus"
+                                        icon="fa-solid fa-circle-play"
                                     />
+                                </div>
+                                <div>
+                                    <p class="font-bold">Video</p>
+                                    <p class="text-xs text-gray-500">
+                                        Show your youtube favourites
+                                    </p>
                                 </div>
                             </div>
                         </li>
                         <li
-                            class="flex gap-3 hover:bg-gray-100 p-3 rounded-lg cursor-pointer"
+                            class="flex shadow-lg hover:bg-gray-200 p-3 rounded-lg cursor-pointer"
+                            @click=""
+                        >
+                            <div
+                                class="flex gap-x-5 justify-between items-center"
+                                data-bs-dismiss="modal"
+                            >
+                                <div class="font-bold text-3xl">
+                                    <font-awesome-icon
+                                        icon="fa-solid fa-envelope"
+                                    />
+                                </div>
+                                <div>
+                                    <p class="font-bold">Email</p>
+                                    <p class="text-xs text-gray-500">
+                                        Add your email addresses
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li
+                            class="flex shadow-lg hover:bg-gray-200 p-3 rounded-lg cursor-pointer"
                             @click="dataStore.addContact()"
                         >
                             <div
-                                class="flex-1 flex justify-between items-center"
+                                class="flex gap-x-5 justify-between items-center"
                                 data-bs-dismiss="modal"
                             >
-                                <div>
-                                    <p class="font-bold">
-                                        <span class="mr-5">
-                                            <font-awesome-icon
-                                                icon="fa-solid fa-address-card"
-                                            />
-                                        </span>
-                                        <span>Contact</span>
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                        Add contact no
-                                    </p>
-                                </div>
-                                <div class="font-bold text-[#6366F1]">
+                                <div class="font-bold text-3xl">
                                     <font-awesome-icon
-                                        icon="fa-solid fa-circle-plus"
+                                        icon="fa-solid fa-phone"
                                     />
                                 </div>
-                            </div>
-                        </li>
-                        <li
-                            :class="
-                                dataStore.fields.find(
-                                    (field) => field.typeId == 5
-                                )
-                                    ? 'bg-gray-200 flex gap-3 hover:bg-gray-100 p-3 rounded-lg'
-                                    : 'cursor-pointer flex gap-3 hover:bg-gray-100 p-3 rounded-lg'
-                            "
-                            @click="dataStore.addFaqs()"
-                            v-if="0"
-                        >
-                            <div
-                                class="flex-1 flex justify-between items-center"
-                                :data-bs-dismiss="
-                                    dataStore.fields.find(
-                                        (field) => field.typeId == 5
-                                    )
-                                        ? ''
-                                        : 'modal'
-                                "
-                            >
                                 <div>
-                                    <p class="font-bold">
-                                        <span class="mr-5">
-                                            <font-awesome-icon
-                                                icon="fa-solid fa-circle-question"
-                                            />
-                                        </span>
-                                        <span>FAQ</span>
-                                    </p>
+                                    <p class="font-bold">Phone</p>
                                     <p class="text-xs text-gray-500">
-                                        Add a frequently asked question
+                                        Let people call you
                                     </p>
-                                </div>
-                                <div class="font-bold text-[#6366F1]">
-                                    <font-awesome-icon
-                                        icon="fa-solid fa-circle-plus"
-                                    />
                                 </div>
                             </div>
                         </li>

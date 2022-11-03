@@ -78,7 +78,7 @@ export const useDataStore = defineStore("data", {
             deletedFieldType: -1,
         },
         fieldsData: {
-            selectedTab: "appearance",
+            selectedTab: "profile",
             user: {},
             style: {
                 color: "#000",

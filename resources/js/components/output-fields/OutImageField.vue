@@ -53,10 +53,3 @@ const dataStore = useDataStore();
 const props = defineProps(["fieldId", "propsId"]);
 console.log(props);
 </script>
-
-<style scoped>
-.accordion-button:not(.collapsed) {
-    color: #000;
-    box-shadow: unset;
-}
-</style>
