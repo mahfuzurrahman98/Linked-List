@@ -1,22 +1,28 @@
 <template>
-	<div>
-		<p
-			v-if="dataStore.fieldsData.links[propsId].value != ''"
-			class="text-center p-3 mt-3 shadow bg-gray-100 rounded-[20px] break-word"
-		>
-			<font-awesome-icon class="float-left" icon="fa-solid fa-link" />
-			<a :href="dataStore.fieldsData.links[propsId].value" target="blank">
-				{{ dataStore.fieldsData.links[propsId].title }}
-			</a>
-		</p>
-	</div>
+    <div
+        v-if="dataStore.fieldsData.links[propsId].value != ''"
+        class="flex items-center justify-between text-center p-3.5 mt-3 shadow bg-white border-2 border-gray-200 rounded-[20px] break-word"
+    >
+        <div class="">
+            <font-awesome-icon class="" icon="fa-solid fa-globe" />
+        </div>
+        <div>
+            <a
+                :href="'mailto:' + dataStore.fieldsData.links[propsId].value"
+                target="blank"
+            >
+                {{ dataStore.fieldsData.links[propsId].title }}
+            </a>
+        </div>
+        <div></div>
+    </div>
 </template>
 
 <script setup>
-	import { useDataStore } from "../../stores";
+import { useDataStore } from "../../stores";
 
-	const dataStore = useDataStore();
-	const props = defineProps(["fieldId", "propsId"]);
+const dataStore = useDataStore();
+const props = defineProps(["fieldId", "propsId"]);
 </script>
 
 <style></style>

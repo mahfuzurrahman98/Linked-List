@@ -1,6 +1,6 @@
 <template lang="">
     <div
-        class="mt-3 p-2 bg-white text-center rounded-[20px]"
+        class="mt-3 p-2 border-2 border-gray-200 bg-white text-center rounded-[20px]"
         v-if="
             embedLink != '' && dataStore.fieldsData.videos[propsId].title != ''
         "
@@ -73,9 +73,3 @@ const embedLink = computed(() => {
     return tempLink;
 });
 </script>
-
-<style scoped>
-.collapse {
-    visibility: unset;
-}
-</style>

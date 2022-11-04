@@ -4,9 +4,7 @@ import InpBgColorField from "../components/input-fields/InpBgColorField.vue";
 import InpBioField from "../components/input-fields/InpBioField.vue";
 import InpColorField from "../components/input-fields/InpColorField.vue";
 import InpContactField from "../components/input-fields/InpContactField.vue";
-import InpDescField from "../components/input-fields/InpDescField.vue";
-import InpFaqField from "../components/input-fields/InpFaqField.vue";
-import InpFaqsField from "../components/input-fields/InpFaqsField.vue";
+import InpEmailField from "../components/input-fields/InpEmailField.vue";
 import InpFontField from "../components/input-fields/InpFontField.vue";
 import InpImageField from "../components/input-fields/InpImageField.vue";
 import InpLinkField from "../components/input-fields/InpLinkField.vue";
@@ -16,9 +14,7 @@ import InpVideoField from "../components/input-fields/InpVideoField.vue";
 // all output components
 import OutBioField from "../components/output-fields/OutBioField.vue";
 import OutContactField from "../components/output-fields/OutContactField.vue";
-import OutDescField from "../components/output-fields/OutDescField.vue";
-import OutFaqField from "../components/output-fields/OutFaqField.vue";
-import OutFaqsField from "../components/output-fields/OutFaqsField.vue";
+import OutEmailField from "../components/output-fields/OutEmailField.vue";
 import OutImageField from "../components/output-fields/OutImageField.vue";
 import OutLinkField from "../components/output-fields/OutLinkField.vue";
 import OutLogoField from "../components/output-fields/OutLogoField.vue";
@@ -42,6 +38,7 @@ export const useDataStore = defineStore("data", {
                 { id: 0, fontName: "San-serif", fontFamily: "sans-serif" },
                 { id: 1, fontName: "Serif", fontFamily: "serif" },
                 { id: 2, fontName: "Mono", fontFamily: "ubuntu" },
+                { id: 2, fontName: "Cursive", fontFamily: "cursive" },
             ],
             fieldsTypeMap: {
                 1: {
@@ -66,8 +63,8 @@ export const useDataStore = defineStore("data", {
                 },
                 5: {
                     type: "Email",
-                    inp: InpFaqsField,
-                    out: OutFaqsField,
+                    inp: InpEmailField,
+                    out: OutEmailField,
                 },
             },
             currentSelectedImage: -1,
@@ -76,6 +73,8 @@ export const useDataStore = defineStore("data", {
             deletedFieldIndex: -1,
             deletedFieldPropsId: -1,
             deletedFieldType: -1,
+            successMessage: "",
+            failureMessage: "",
         },
         fieldsData: {
             selectedTab: "profile",
@@ -94,6 +93,7 @@ export const useDataStore = defineStore("data", {
             images: [],
             videos: [],
             contacts: [],
+            emails: [],
         },
         fieldsMap: {
             logo: { inp: InpLogoField, out: OutLogoField },
@@ -118,10 +118,10 @@ export const useDataStore = defineStore("data", {
                 " 100%)"
             );
         },
-        formattedCards() {
-            const cardsData = [];
+        formattedFields() {
+            const fieldsData = [];
             this.fields.forEach((field, index) => {
-                cardsData.push({
+                fieldsData.push({
                     userId: this.user.id,
                     typeId: field.typeId,
                     positionId: index,
@@ -130,7 +130,7 @@ export const useDataStore = defineStore("data", {
                     deleted: field.deleted,
                 });
             });
-            return cardsData;
+            return fieldsData;
         },
         formattedLinks() {
             const linksData = [];
@@ -160,19 +160,6 @@ export const useDataStore = defineStore("data", {
             });
             return imagesData;
         },
-        formattedContacts() {
-            const contactsData = [];
-            this.fieldsData.contacts.forEach((contact, index) => {
-                if (contact.value != "") {
-                    contactsData.push({
-                        userId: this.user.id,
-                        propsId: index,
-                        value: contact.value,
-                    });
-                }
-            });
-            return contactsData;
-        },
         formattedVideos() {
             const videosData = [];
             this.fieldsData.videos.forEach((video, index) => {
@@ -187,110 +174,38 @@ export const useDataStore = defineStore("data", {
             });
             return videosData;
         },
-        checkEmptyField() {
-            // 0 for empty field, -1 for invalid video link, 1 for ok
-            console.log("check empty callled");
-
-            // if (this.fieldsData.style.color == "") {
-            //     return 3;
-            // }
-            // if (this.fieldsData.style.bgColor.color1 == "") {
-            //     return 4;
-            // }
-            // if (
-            //     this.fieldsData.style.bgColorType == "gradient" &&
-            //     this.fieldsData.style.bgColor.color2 == ""
-            // ) {
-            //     return 5;
-            // }
-
-            for (let i = 0; i < this.fields.length; i++) {
-                const field = this.fields[i];
-                if (field.typeId == 1) {
-                    // link
-                    let link = this.fieldsData.links[field.propsId];
-                    if (field.deleted == 1) {
-                        // pass
-                    } else {
-                        if (link.title == "" || link.value == "") {
-                            console.log("link empty");
-                            return 0;
-                        }
-                    }
+        formattedContacts() {
+            const contactsData = [];
+            this.fieldsData.contacts.forEach((contact, index) => {
+                if (contact.value != "") {
+                    contactsData.push({
+                        userId: this.user.id,
+                        propsId: index,
+                        value: contact.value,
+                    });
                 }
-                if (field.typeId == 2) {
-                    // image
-                    let image = this.fieldsData.images[field.propsId];
-                    if (field.deleted == 1) {
-                        // pass
-                    } else {
-                        if (image.title == "" || image.value == "") {
-                            console.log("image empty");
-                            return 0;
-                        }
-                    }
+            });
+            return contactsData;
+        },
+        formattedEmails() {
+            const emailsData = [];
+            this.fieldsData.emails.forEach((email, index) => {
+                if (email.value != "") {
+                    emailsData.push({
+                        userId: this.user.id,
+                        propsId: index,
+                        value: email.value,
+                    });
                 }
-                if (field.typeId == 3) {
-                    // video
-                    let video = this.fieldsData.videos[field.propsId];
-                    if (field.deleted == 1) {
-                        // pass
-                    } else {
-                        if (video.title == "" || video.value == "") {
-                            console.log("video empty");
-                            return 0;
-                        } else {
-                            let url = video.value;
-                            if (
-                                !(
-                                    url.includes("youtu.be/") ||
-                                    url.includes("m.youtube.com/watch?v=") ||
-                                    url.includes("www.youtube.com/watch?v=")
-                                )
-                            ) {
-                                console.log("video empty 1");
-                                return -1;
-                            }
-                        }
-                    }
-                }
-                if (field.typeId == 4) {
-                    // contact
-                    let contact = this.fieldsData.contacts[field.propsId];
-                    if (field.deleted == 1) {
-                        // pass
-                    } else {
-                        if (contact.value == "") {
-                            console.log("contact empty");
-                            return 0;
-                        }
-                    }
-                }
-                if (field.typeId == 6) {
-                    // contact
-                    let description =
-                        this.fieldsData.descriptions[field.propsId];
-                    if (field.deleted == 1) {
-                        // pass
-                    } else {
-                        if (
-                            description.title == "" ||
-                            description.value == ""
-                        ) {
-                            console.log("desc empty");
-                            return 0;
-                        }
-                    }
-                }
-            }
-            return 1;
+            });
+            return emailsData;
         },
     },
     actions: {
         construct() {
             this.apiServer = "/api/";
             this.logoServer = "/uploads/restorants/";
-            this.imageServer = "/uploads/card_images/";
+            this.imageServer = "/uploads/field_images/";
         },
         selectTab(tab) {
             this.fieldsData.selectedTab = tab;
@@ -317,7 +232,7 @@ export const useDataStore = defineStore("data", {
                 data = JSON.parse(data.data.json);
                 this.fieldsData.style = data;
             } catch (error) {
-                alert(error);
+                // alert("sdfsdfsadf");
             }
 
             // get links
@@ -397,8 +312,8 @@ export const useDataStore = defineStore("data", {
                 alert(error);
             }
 
-            // get cards
-            url = "api/get-cards/" + this.user.id;
+            // get fields
+            url = "api/get-fields/" + this.user.id;
             try {
                 let data = await axios.get(url);
                 data = data.data;
@@ -421,28 +336,109 @@ export const useDataStore = defineStore("data", {
                 alert("err");
             }
         },
-        async postData() {
-            console.log("delete index: ", this.refData.deletedFieldIndex);
-            let flag = this.checkEmptyField;
-            // console.log("isEmpty: ", isEmpty);
-            // pre processing
-            if (flag == 0) {
-                alert("Card can't be empty");
+        checkEmptyField() {
+            // 0 for empty field, -1 for invalid video link, 1 for ok
+            console.log("check empty callled: ", this.fieldsData.style);
+
+            if (this.fieldsData.style.color == "") {
+                this.refData.failureMessage = "Select the text color";
                 return;
-            }
-            if (flag == -1) {
-                alert("Only valid youtube url is acceptable");
+            } else if (this.fieldsData.style.bgColor.color1 == "") {
+                this.refData.failureMessage = "Select background color";
                 return;
-            }
-            if (flag == 3) {
-                alert("Text color field can't be empty");
-                return;
-            }
-            if (flag == 4 && flag == 5) {
-                alert("Background color field can't be empty");
+            } else if (
+                this.fieldsData.style.bgColorType == "gradient" &&
+                this.fieldsData.style.bgColor.color2 == ""
+            ) {
+                this.refData.failureMessage = "Select background color";
                 return;
             }
 
+            for (let i = 0; i < this.fields.length; i++) {
+                const field = this.fields[i];
+                if (field.typeId == 1) {
+                    // link
+                    let link = this.fieldsData.links[field.propsId];
+                    if (field.deleted == 1) {
+                        // pass
+                    } else {
+                        if (link.title == "" || link.value == "") {
+                            this.refData.failureMessage = "Fill the link field";
+                            return;
+                        }
+                    }
+                } else if (field.typeId == 2) {
+                    // image
+                    let image = this.fieldsData.images[field.propsId];
+                    if (field.deleted == 1) {
+                        // pass
+                    } else {
+                        if (image.title == "" || image.value == "") {
+                            this.refData.failureMessage =
+                                "Fill the image field";
+                            return;
+                        }
+                    }
+                } else if (field.typeId == 3) {
+                    // video
+                    let video = this.fieldsData.videos[field.propsId];
+                    if (field.deleted == 1) {
+                        // pass
+                    } else {
+                        if (video.title == "" || video.value == "") {
+                            this.refData.failureMessage =
+                                "Fill the video field";
+                            return;
+                        } else {
+                            let url = video.value;
+                            if (
+                                !(
+                                    url.includes("youtu.be/") ||
+                                    url.includes("m.youtube.com/watch?v=") ||
+                                    url.includes("www.youtube.com/watch?v=")
+                                )
+                            ) {
+                                this.refData.failureMessage =
+                                    "Invalid video link";
+                                return;
+                            }
+                        }
+                    }
+                } else if (field.typeId == 4) {
+                    // contact
+                    let contact = this.fieldsData.contacts[field.propsId];
+                    if (field.deleted == 1) {
+                        // pass
+                    } else {
+                        if (contact.value == "") {
+                            this.refData.failureMessage =
+                                "Fill the phone field";
+                            return;
+                        }
+                    }
+                } else if (field.typeId == 5) {
+                    // email
+                    let email = this.fieldsData.emails[field.propsId];
+                    if (field.deleted == 1) {
+                        // pass
+                    } else {
+                        if (email.title == "" || email.value == "") {
+                            this.refData.failureMessage =
+                                "Fill the email field";
+                            return;
+                        }
+                    }
+                }
+            }
+        },
+        async postData() {
+            console.log("delete index: ", this.refData.deletedFieldIndex);
+
+            this.checkEmptyField();
+
+            if (this.refData.failureMessage != "") {
+                return;
+            }
             let url = "";
 
             // put name, bio, and logo
@@ -497,20 +493,6 @@ export const useDataStore = defineStore("data", {
                 return;
             }
 
-            // put contacts
-            url = "api/update-contacts/" + this.user.id;
-            try {
-                let resp = await axios.put(url, this.formattedContacts, {
-                    headers: {
-                        "Content-type": "application/json",
-                    },
-                });
-                console.log(resp);
-            } catch (error) {
-                alert(error);
-                return;
-            }
-
             // put videos
             url = "api/update-videos/" + this.user.id;
             try {
@@ -525,10 +507,10 @@ export const useDataStore = defineStore("data", {
                 return;
             }
 
-            // put cards
-            url = "api/update-cards/" + this.user.id;
+            // put contacts
+            url = "api/update-contacts/" + this.user.id;
             try {
-                let resp = await axios.put(url, this.formattedCards, {
+                let resp = await axios.put(url, this.formattedContacts, {
                     headers: {
                         "Content-type": "application/json",
                     },
@@ -538,10 +520,38 @@ export const useDataStore = defineStore("data", {
                 alert(error);
                 return;
             }
-            alert("Changes have been saved successfully");
+
+            // put emails
+            url = "api/update-emails/" + this.user.id;
+            try {
+                let resp = await axios.put(url, this.formattedEmails, {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                });
+                console.log(resp);
+            } catch (error) {
+                alert(error);
+                return;
+            }
+
+            // put fields
+            url = "api/update-fields/" + this.user.id;
+            try {
+                let resp = await axios.put(url, this.formattedFields, {
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                });
+                console.log(resp);
+            } catch (error) {
+                alert(error);
+                return;
+            }
+            this.refData.successMessage = "Successfully updated!";
         },
         async getAllImages() {
-            let url = "api/get-all-uploaded-images/" + this.user.id;
+            let url = "api/get-image-gallery/" + this.user.id;
             try {
                 let data = await axios.get(url);
                 data = data.data;
@@ -598,7 +608,11 @@ export const useDataStore = defineStore("data", {
         },
         addLink() {
             const mxId = this.fieldsData.links.length;
-            this.fieldsData.links.push({ propsId: mxId, title: "", value: "" });
+            this.fieldsData.links.push({
+                propsId: mxId,
+                title: "",
+                value: "",
+            });
             console.log(this.fieldsData.links);
             this.fields.push({
                 typeId: 1,
@@ -653,49 +667,18 @@ export const useDataStore = defineStore("data", {
                 deleted: 0,
             });
         },
-        addFaq() {
-            const mxId = this.fieldsData.faqs.length;
-            this.fieldsData.faqs.push({
-                propsId: mxId,
-                question: "",
-                answer: "",
-            });
-            this.fields.push({
-                typeId: 7,
-                propsId: mxId,
-                inp: InpFaqField,
-                out: OutFaqField,
-                active: 1,
-                deleted: 0,
-            });
-        },
-        addFaqs() {
-            let found = this.fields.find((field) => field.typeId == 5);
-            console.log("add faqs called: ", found);
-            if (!found) {
-                this.addFaq();
-                this.fields.push({
-                    typeId: 5,
-                    propsId: 0,
-                    inp: InpFaqsField,
-                    out: OutFaqsField,
-                    active: 1,
-                    deleted: 0,
-                });
-            }
-        },
-        addDescription() {
-            const mxId = this.fieldsData.descriptions.length;
-            this.fieldsData.descriptions.push({
+        addEmail() {
+            const mxId = this.fieldsData.emails.length;
+            this.fieldsData.emails.push({
                 propsId: mxId,
                 title: "",
                 value: "",
             });
             this.fields.push({
-                typeId: 6,
+                typeId: 5,
                 propsId: mxId,
-                inp: InpDescField,
-                out: OutDescField,
+                inp: InpEmailField,
+                out: OutEmailField,
                 active: 1,
                 deleted: 0,
             });

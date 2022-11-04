@@ -5,17 +5,15 @@
     >
         <img
             :src="dataStore.fieldsData.user.logo"
-            class="object-contain w-24 h-24 bg-white p-1 rounded-full"
+            class="object-contain w-24 h-24 bg-black border-2 p-1 rounded-full"
         />
     </div>
     <div v-else>
         <div class="flex justify-center">
             <div
-                class="bg-red text-center mt-3 rounded-full bg-[#2F2F2F] text-white logo-name"
+                class="bg-red text-center mt-3 rounded-full bg-black text-white flex justify-center items-center w-24 h-24 font-bold border-4 text-4xl uppercase"
             >
-                <p target="_blank">
-                    {{ altLogo }}
-                </p>
+                {{ altLogo }}
             </div>
         </div>
     </div>
@@ -44,17 +42,3 @@ const altLogo = computed(() => {
     return logo;
 });
 </script>
-
-<style scoped>
-.logo-name {
-    font-size: 45px;
-    width: 95px;
-    height: 95px;
-    display: flex;
-    align-content: space-around;
-    justify-content: space-around;
-    align-items: center;
-    border: 5px solid #ffffff;
-    text-transform: uppercase;
-}
-</style>

@@ -1,10 +1,10 @@
 <template>
-    <p
-        class="p-1 rounded text-center break-words text-sm"
+    <div
         :style="{ color: dataStore.fieldsData.style.color }"
+        class="text-center break-words text-xs px-3 mt-1"
     >
         {{ dataStore.fieldsData.user.bio }}
-    </p>
+    </div>
 </template>
 <script setup>
 import { useDataStore } from "../../stores";

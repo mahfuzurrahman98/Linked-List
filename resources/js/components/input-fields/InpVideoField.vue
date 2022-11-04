@@ -1,23 +1,19 @@
 <template>
-    <div>
-        <div class="w-full">
-            <input
-                class="appearance-none border-2 border-black rounded-lg w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:bg-gray-100"
-                placeholder="Enter title"
-                type="text"
-                :propsId="propsId"
-                v-model="dataStore.fieldsData.videos[propsId].title"
-            />
-        </div>
-        <div class="mt-1 w-full">
-            <input
-                class="appearance-none border-2 border-black rounded-lg w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:bg-gray-100"
-                placeholder="Enter youtube video link"
-                type="text"
-                :propsId="propsId"
-                v-model="dataStore.fieldsData.videos[propsId].value"
-            />
-        </div>
+    <div class="w-full">
+        <input
+            class="border-b-2 w-full border-orange-600 py-0 px-2 text-black leading-tight focus:outline-none focus:border-orange-400"
+            placeholder="Title"
+            type="text"
+            v-model="dataStore.fieldsData.videos[propsId].title"
+        />
+    </div>
+    <div class="mt-3 w-full">
+        <input
+            class="border-b-2 w-full border-orange-600 py-0 px-2 text-black leading-tight focus:outline-none focus:border-orange-400"
+            placeholder="Hyperlink"
+            type="text"
+            v-model="dataStore.fieldsData.videos[propsId].value"
+        />
     </div>
 </template>
 

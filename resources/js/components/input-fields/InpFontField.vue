@@ -1,6 +1,6 @@
 <template lang="">
     <p class="tracking-wide text-md font-bold mb-4" for="">Font</p>
-    <div class="flex gap-3 mt-2">
+    <div class="flex flex-wrap gap-3 mt-2">
         <div
             v-for="font in dataStore.refData.fonts"
             :key="font.id"
@@ -9,7 +9,7 @@
             <div
                 :class="
                     dataStore.fieldsData.style.fontFamily == font.fontFamily
-                        ? 'border-2 border-violet-600 rounded'
+                        ? 'border-2 border-orange-600 rounded'
                         : ''
                 "
                 class="p-0.5"

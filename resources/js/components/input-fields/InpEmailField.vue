@@ -4,15 +4,15 @@
             class="border-b-2 w-full border-orange-600 py-0 px-2 text-black leading-tight focus:outline-none focus:border-orange-400"
             placeholder="Title"
             type="text"
-            v-model="dataStore.fieldsData.links[propsId].title"
+            v-model="dataStore.fieldsData.emails[propsId].title"
         />
     </div>
     <div class="mt-3 w-full">
         <input
             class="border-b-2 w-full border-orange-600 py-0 px-2 text-black leading-tight focus:outline-none focus:border-orange-400"
-            placeholder="Hyperlink"
+            placeholder="Email Address"
             type="text"
-            v-model="dataStore.fieldsData.links[propsId].value"
+            v-model="dataStore.fieldsData.emails[propsId].value"
         />
     </div>
 </template>

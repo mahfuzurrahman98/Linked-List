@@ -14,11 +14,11 @@ const router = createRouter({
             component: Home,
         },
         {
-            path: "/admin",
-            name: "admin",
-            component: Admin,
+            path: "/register",
+            name: "register",
+            component: Register,
             meta: {
-                auth: true,
+                auth: false,
             },
         },
         {
@@ -30,11 +30,11 @@ const router = createRouter({
             },
         },
         {
-            path: "/register",
-            name: "register",
-            component: Register,
+            path: "/admin",
+            name: "admin",
+            component: Admin,
             meta: {
-                auth: false,
+                auth: true,
             },
         },
     ],
@@ -43,8 +43,8 @@ const router = createRouter({
 // route middlewares
 router.beforeEach((to, from, next) => {
     const dataStore = useDataStore();
-    console.log(dataStore.user);
-    console.log(to.name);
+    // console.log(dataStore.user);
+    // console.log(to.name);
 
     if ("meta" in to && "auth" in to.meta) {
         // this route has auth

@@ -7,31 +7,33 @@
             >
                 <img
                     :src="
-                        '/uploads/card_images/' +
+                        '/uploads/field_images/' +
                         dataStore.fieldsData.images[propsId].value
                     "
-                    class="w-32 border-2 border-blue-600 rounded p-1"
+                    class="w-32 border-2 border-orange-600 rounded p-1"
                     alt=""
                 />
             </div>
-            <div class="">
-                <input
-                    class="appearance-none border-2 border-black rounded-lg w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:bg-gray-100"
-                    placeholder="Enter title"
-                    type="text"
-                    :propsId="propsId"
-                    v-model="dataStore.fieldsData.images[propsId].title"
-                />
-            </div>
-            <div class="mt-2">
-                <p
-                    class="text-center rounded-md py-2 bg-slate-200 cursor-pointer"
-                    data-bs-toggle="modal"
-                    data-bs-target="#imageUploadModal"
-                    @click="getImageModal()"
-                >
-                    Selcet Image
-                </p>
+
+            <div class="flex justify-between gap-x-3 mt-3">
+                <div class="w-full">
+                    <input
+                        class="border-b-2 w-full border-orange-600 py-0 px-2 text-black leading-tight focus:outline-none focus:border-orange-400"
+                        placeholder="Title"
+                        type="text"
+                        v-model="dataStore.fieldsData.images[propsId].title"
+                    />
+                </div>
+                <div class="">
+                    <p
+                        class="text-center rounded-md py-1 px-2 bg-slate-200 cursor-pointer"
+                        data-bs-toggle="modal"
+                        data-bs-target="#imageUploadModal"
+                        @click="getImageModal()"
+                    >
+                        Image
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -46,7 +48,7 @@
         aria-labelledby="imageUploadModalLabel"
         aria-hidden="true"
     >
-        <div class="modal-dialog relative w-auto pointer-events-none">
+        <div class="modal-dialog modal-md relative w-auto pointer-events-none">
             <div
                 class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current"
             >
@@ -57,7 +59,7 @@
                         class="text-xl font-medium leading-normal text-gray-800"
                         id="exampleModalLabel"
                     >
-                        Uploaded Images
+                        Image Gallery
                     </h5>
                     <button
                         type="button"
@@ -66,44 +68,49 @@
                         aria-label="Close"
                     ></button>
                 </div>
+
                 <input
-                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:outline-none"
                     type="file"
                     @change="dataStore.changeImageUploaded($event)"
                 />
                 <div class="modal-body relative p-4 mt-3">
-                    <div class="flex gap-3 mb-3">
+                    <div class="flex flex-wrap gap-3 mb-3">
                         <div
                             v-for="(image, index) in dataStore.fieldsData
                                 .uploadedImages"
                         >
                             <div
+                                class="w-24 h-24"
                                 :class="
                                     index ==
                                     dataStore.refData.currentSelectedImage
-                                        ? 'border-2 border-violet-600 rounded p-0.5'
+                                        ? 'border-2 border-orange-600 rounded p-0.5'
                                         : ''
                                 "
                                 @click="selectImage(index)"
                             >
                                 <img
                                     width="100"
-                                    :src="'/uploads/card_images/' + image.image"
+                                    :src="
+                                        '/uploads/field_images/' + image.image
+                                    "
                                     alt="ALT"
                                 />
                             </div>
                         </div>
                     </div>
-                    <button
-                        :class="
-                            selectBtnColor + ' text-white px-2 py-1 rounded-md'
-                        "
-                        data-bs-dismiss="modal"
-                        @click="setImageOnFieldLocal"
-                        :disabled="selectBtnDisabled"
-                    >
-                        Select
-                    </button>
+                    <div class="text-center">
+                        <button
+                            :class="selectBtnColor"
+                            class="cursor-pointer text-white px-2 py-1 rounded-md font-bold"
+                            data-bs-dismiss="modal"
+                            @click="setImageOnFieldLocal"
+                            :disabled="selectBtnDisabled"
+                        >
+                            Select
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -116,7 +123,7 @@ import { useDataStore } from "../../stores";
 const dataStore = useDataStore();
 const props = defineProps(["fieldId", "propsId"]);
 let selectBtnDisabled = ref(true);
-let selectBtnColor = ref("bg-blue-400");
+let selectBtnColor = ref("bg-orange-400");
 
 const getImageModal = () => {
     dataStore.refData.currentImagePropsId = props.propsId;
@@ -126,7 +133,7 @@ const getImageModal = () => {
 const selectImage = (index) => {
     dataStore.refData.currentSelectedImage = index;
     selectBtnDisabled.value = false;
-    selectBtnColor.value = "bg-blue-800";
+    selectBtnColor.value = "bg-orange-600";
 };
 
 const setImageOnFieldLocal = () => {

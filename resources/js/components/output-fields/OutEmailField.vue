@@ -1,17 +1,17 @@
 <template>
     <div
-        v-if="dataStore.fieldsData.contacts[propsId].value != ''"
+        v-if="dataStore.fieldsData.emails[propsId].value != ''"
         class="flex items-center justify-between p-3.5 mt-3 shadow bg-white border-2 border-gray-200 rounded-[20px] break-word"
     >
         <div class="">
-            <font-awesome-icon class="" icon="fa-solid fa-phone" />
+            <font-awesome-icon class="" icon="fa-solid fa-envelope" />
         </div>
         <div>
             <a
-                :href="'tel:' + dataStore.fieldsData.contacts[propsId].value"
+                :href="'mailto:' + dataStore.fieldsData.emails[propsId].value"
                 target="blank"
             >
-                {{ dataStore.fieldsData.contacts[propsId].value }}
+                {{ dataStore.fieldsData.emails[propsId].title }}
             </a>
         </div>
         <div></div>

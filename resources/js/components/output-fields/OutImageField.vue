@@ -4,7 +4,7 @@
             dataStore.fieldsData.images[propsId].value != '' &&
             dataStore.fieldsData.images[propsId].title != ''
         "
-        class="mt-3 p-2 bg-white text-center rounded-[20px]"
+        class="mt-3 p-2 border-2 border-gray-200 bg-white text-center rounded-[20px]"
     >
         <div class="accordion" id="accordionExample2">
             <div class="accordion-item bg-white border-0">
@@ -31,10 +31,10 @@
                     aria-labelledby="headingOne2"
                     data-bs-parent="#accordionExample2"
                 >
-                    <div class="accordion-body py-4 px-5">
+                    <div class="accordion-body py-4 px-5 flex justify-center">
                         <img
                             :src="
-                                '/uploads/card_images/' +
+                                '/uploads/field_images/' +
                                 dataStore.fieldsData.images[propsId].value
                             "
                             class="text-center p-0"

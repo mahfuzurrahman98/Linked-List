@@ -36,7 +36,7 @@ window.onload = function () {
         Object.keys(dataStore.user).length > 0
     ) {
         // an authenticated user is present
-        console.log("all cond satis");
+        // console.log("all cond satis");
         localStorage.setItem("token", dataStore.token);
         localStorage.setItem("userAuthenticated", dataStore.userAuthenticated);
         localStorage.setItem("user", JSON.stringify(dataStore.user));

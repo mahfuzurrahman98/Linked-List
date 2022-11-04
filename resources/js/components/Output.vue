@@ -1,7 +1,6 @@
 <template>
-    see: <a href="">https://biomaker.com/{{ dataStore.user.username }}</a>
     <div
-        class="md:w-[340px] h-screen md:h-[650px] mx-auto border-[7px] border-black rounded-[32px] px-3 items-center overflow-y-auto no-scrollbar pb-5 mt-5"
+        class="md:w-[300px] h-screen md:h-[620px] mx-auto border-[7px] border-black rounded-[32px] px-3 items-center overflow-y-auto no-scrollbar pb-5 mt-5"
         :style="{
             color: dataStore.fieldsData.color,
             background: background,

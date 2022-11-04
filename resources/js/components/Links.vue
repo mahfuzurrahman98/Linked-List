@@ -1,96 +1,68 @@
 <template>
-    <div class="flex justify-between mb-5 bg-pink-00">
-        <div class="">
-            <button
-                type="button"
-                class="bg-blue-900 hover:bg-blue-500 px-5 py-2 rounded-full text-white text-sm transition duration-150 ease-in-out"
-                data-bs-toggle="modal"
-                data-bs-target="#cardModal"
-            >
-                Add Card
-            </button>
-        </div>
-        <!-- 
-		<div class="">
-			<button
-				@click="updateData"
-				class="rounded-2xl px-5 py-2"
-				:class="btnClasses"
-				:disabled="updateBtnIsDisabled"
-			>
-				Save
-			</button>
-		</div> -->
-    </div>
-
     <draggable v-model="dataStore.fields" item-key="index" handle=".handle">
         <template #item="{ element, index }">
             <div
-                v-if="
-                    element.typeId != 0 &&
-                    element.typeId != 5 &&
-                    element.typeId != 7 &&
-                    !element.deleted
-                "
-                class="my-3 flex"
+                v-if="!element.deleted"
+                class="bg-white my-3 flex items-center gap-x-5 shadow-lg p-3 rounded-3xl"
             >
-                <div
-                    class="flex handle cursor-grab bg-gray-200 py-6 px-2 rounded-l-lg items-center"
-                >
-                    <font-awesome-icon icon="fa-brand fa-grip-vertical" />
-                </div>
-                <div class="bg-white pl-7 pr-5 py-3 rounded-r-lg w-full">
-                    <div class="flex justify-between">
-                        <p class="font-bold">
-                            {{
-                                dataStore.refData.fieldsTypeMap[element.typeId]
-                                    .type
-                            }}
-                        </p>
-                        <div
-                            class="flex gap-x-3"
-                            :style="
-                                element.typeId == 0
-                                    ? { paddingRight: '24.8px' }
-                                    : ''
-                            "
-                        >
-                            <div class="form-check form-switch">
-                                <input
-                                    class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-gray-500 bg-no-repeat bg-contain focus:outline-none cursor-pointer shadow-sm"
-                                    type="checkbox"
-                                    role="switch"
-                                    @change="dataStore.enableDisable(index)"
-                                    :checked="element.active"
-                                />
-                                <label
-                                    class="form-check-label inline-block text-gray-800"
-                                >
-                                </label>
-                            </div>
-                            <div v-if="element.typeId != 0" class="">
-                                <p
-                                    class="cursor-pointer"
-                                    @click="
-                                        dataStore.refData.deletedFieldIndex =
-                                            index
-                                    "
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#fieldDeleteModal"
-                                >
-                                    <font-awesome-icon
-                                        icon="fa-regular fa-trash-can"
-                                    />
-                                </p>
-                            </div>
-                        </div>
+                <div class="flex handle cursor-grab">
+                    <div v-if="element.typeId == 1">
+                        <font-awesome-icon icon="fa-solid fa-globe" />
                     </div>
+                    <div v-else-if="element.typeId == 2">
+                        <font-awesome-icon icon="fa-solid fa-image" />
+                    </div>
+                    <div v-else-if="element.typeId == 3">
+                        <font-awesome-icon icon="fa-regular fa-circle-play" />
+                    </div>
+
+                    <div v-else-if="element.typeId == 4">
+                        <font-awesome-icon i icon="fa-solid fa-phone" />
+                    </div>
+                    <div v-else-if="element.typeId == 5">
+                        <font-awesome-icon icon="fa-solid fa-envelope" />
+                    </div>
+                </div>
+                <div class="w-full">
                     <component :is="element.inp" v-bind="sendProps(index)" />
+                </div>
+                <div class="flex flex-col items-strech py-2">
+                    <div class="form-check">
+                        <input
+                            class="form-check-input appearance-none h-5 w-5 border-2 border-orange-700 rounded-full bg-white checked:bg-orange-500 bg-center bg-contain cursor-pointer"
+                            type="checkbox"
+                            @change="dataStore.enableDisable(index)"
+                            :checked="element.active"
+                        />
+                        <label
+                            class="form-check-label inline-block text-gray-800"
+                        >
+                        </label>
+                    </div>
+                    <div class="mt-1">
+                        <p
+                            class="cursor-pointer"
+                            @click="dataStore.refData.deletedFieldIndex = index"
+                            data-bs-toggle="modal"
+                            data-bs-target="#fieldDeleteModal"
+                        >
+                            <font-awesome-icon icon="fa-regular fa-trash-can" />
+                        </p>
+                    </div>
                 </div>
             </div>
         </template>
     </draggable>
 
+    <div class="mt-5">
+        <p
+            class="bg-orange-600 text-center text-white rounded-2xl py-2 font-bold cursor-pointer"
+            data-bs-toggle="modal"
+            data-bs-target="#cardModal"
+        >
+            <font-awesome-icon icon="fa-solid fa-circle-plus" /> Add New
+        </p>
+    </div>
     <!-- All card add modal -->
     <div
         class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
@@ -99,15 +71,13 @@
         aria-labelledby="cardModalLabel"
         aria-hidden="true"
     >
-        <div
-            class="modal-dialog modal-sm modal-dialog-centered relative w-auto pointer-events-none"
-        >
+        <div class="modal-dialog relative w-auto pointer-events-none">
             <div
                 class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current"
             >
                 <div class="modal-body relative p-4">
-                    <ul class="flex flex-col gap-y-2">
-                        <li
+                    <div class="flex flex-wrap flex-col gap-y-2">
+                        <div
                             class="flex shadow-lg hover:bg-gray-200 p-3 rounded-lg cursor-pointer"
                             @click="dataStore.addLink()"
                         >
@@ -127,8 +97,8 @@
                                     </p>
                                 </div>
                             </div>
-                        </li>
-                        <li
+                        </div>
+                        <div
                             class="flex shadow-lg hover:bg-gray-200 p-3 rounded-lg cursor-pointer"
                             @click="dataStore.addImage()"
                         >
@@ -148,10 +118,10 @@
                                     </p>
                                 </div>
                             </div>
-                        </li>
-                        <li
+                        </div>
+                        <div
                             class="flex shadow-lg hover:bg-gray-200 p-3 rounded-lg cursor-pointer"
-                            @click=""
+                            @click="dataStore.addVideo"
                         >
                             <div
                                 class="flex gap-x-5 justify-between items-center"
@@ -169,29 +139,8 @@
                                     </p>
                                 </div>
                             </div>
-                        </li>
-                        <li
-                            class="flex shadow-lg hover:bg-gray-200 p-3 rounded-lg cursor-pointer"
-                            @click=""
-                        >
-                            <div
-                                class="flex gap-x-5 justify-between items-center"
-                                data-bs-dismiss="modal"
-                            >
-                                <div class="font-bold text-3xl">
-                                    <font-awesome-icon
-                                        icon="fa-solid fa-envelope"
-                                    />
-                                </div>
-                                <div>
-                                    <p class="font-bold">Email</p>
-                                    <p class="text-xs text-gray-500">
-                                        Add your email addresses
-                                    </p>
-                                </div>
-                            </div>
-                        </li>
-                        <li
+                        </div>
+                        <div
                             class="flex shadow-lg hover:bg-gray-200 p-3 rounded-lg cursor-pointer"
                             @click="dataStore.addContact()"
                         >
@@ -211,8 +160,29 @@
                                     </p>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
+                        </div>
+                        <div
+                            class="flex shadow-lg hover:bg-gray-200 p-3 rounded-lg cursor-pointer"
+                            @click="dataStore.addEmail()"
+                        >
+                            <div
+                                class="flex gap-x-5 justify-between items-center"
+                                data-bs-dismiss="modal"
+                            >
+                                <div class="font-bold text-3xl">
+                                    <font-awesome-icon
+                                        icon="fa-solid fa-envelope"
+                                    />
+                                </div>
+                                <div>
+                                    <p class="font-bold">Email</p>
+                                    <p class="text-xs text-gray-500">
+                                        Add your email addresses
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -276,7 +246,6 @@
 </template>
 
 <script setup>
-// import { ref } from "vue";
 import draggable from "vuedraggable";
 import { useDataStore } from "../stores";
 
@@ -288,19 +257,6 @@ const sendProps = (fieldId) => {
         propsId: dataStore.fields[fieldId].propsId,
     };
 };
-
-// let updateBtnIsDisabled = ref(false);
-// let btnClasses = ref("bg-green-900 text-white ");
-
-// const updateData = () => {
-// 	updateBtnIsDisabled.value = true;
-// 	btnClasses.value = "bg-gray-400 text-black ";
-// 	dataStore.postData();
-// 	setTimeout(() => {
-// 		updateBtnIsDisabled.value = false;
-// 		btnClasses.value = "bg-green-900 text-white ";
-// 	}, 2000);
-// };
 </script>
 
 <style></style>

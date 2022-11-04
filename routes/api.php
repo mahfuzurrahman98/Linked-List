@@ -3,9 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FieldController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ShopAPIController;
 
+// FieldController
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,25 +34,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // update routes
-    Route::put('/update-theme/{id}', [ShopAPIController::class, 'updateShopTheme']);
     Route::post('/update-user/{id}', [UserController::class, 'update']);
-    Route::put('/update-cards/{id}', [ShopAPIController::class, 'updateShopCards']);
-    Route::put('/update-links/{id}', [ShopAPIController::class, 'updateShopLinks']);
-    Route::post('/update-images/{id}', [ShopAPIController::class, 'updateShopImages']);
-    Route::put('/update-videos/{id}', [ShopAPIController::class, 'updateShopVideos']);
-    Route::put('/update-contacts/{id}', [ShopAPIController::class, 'updateShopContacts']);
-    Route::post('/upload-image/{id}', [ShopAPIController::class, 'uploadImages']);
+    Route::put('/update-theme/{id}', [FieldController::class, 'updateTheme']);
+    Route::put('/update-links/{id}', [FieldController::class, 'updateLinks']);
+    Route::post('/upload-image/{id}', [FieldController::class, 'uploadImage']);
+    Route::post('/update-images/{id}', [FieldController::class, 'updateImages']);
+    Route::put('/update-videos/{id}', [FieldController::class, 'updateVideos']);
+    Route::put('/update-contacts/{id}', [FieldController::class, 'updateContacts']);
+    Route::put('/update-emails/{id}', [FieldController::class, 'updateEmails']);
+    Route::put('/update-fields/{id}', [FieldController::class, 'updateFields']);
 });
-
 
 // get routes
 Route::get('/get-user/{username}', [UserController::class, 'show']);
-Route::get('/get-theme/{id}', [ShopAPIController::class, 'getShopTheme']);
-Route::get('/get-links/{id}', [ShopAPIController::class, 'getShopLinks']);
-Route::get('/get-images/{id}', [ShopAPIController::class, 'getShopImages']);
-Route::get('/get-videos/{id}', [ShopAPIController::class, 'getShopVideos']);
-Route::get('/get-contacts/{id}', [ShopAPIController::class, 'getShopContacts']);
-
-Route::get('/get-descriptions/{id}', [ShopAPIController::class, 'getShopDescriptions']);
-Route::get('/get-all-uploaded-images/{id}', [ShopAPIController::class, 'getAllImages']);
-Route::get('/get-cards/{id}', [ShopAPIController::class, 'getShopCards']);
+Route::get('/get-theme/{id}', [FieldController::class, 'getTheme']);
+Route::get('/get-links/{id}', [FieldController::class, 'getLinks']);
+Route::get('/get-image-gallery/{id}', [FieldController::class, 'getImageGallery']);
+Route::get('/get-images/{id}', [FieldController::class, 'getImages']);
+Route::get('/get-videos/{id}', [FieldController::class, 'getVideos']);
+Route::get('/get-contacts/{id}', [FieldController::class, 'getContacts']);
+Route::get('/get-emails/{id}', [FieldController::class, 'getEmails']);
+Route::get('/get-fields/{id}', [FieldController::class, 'getFields']);

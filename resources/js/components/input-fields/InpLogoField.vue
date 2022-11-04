@@ -1,39 +1,39 @@
 <template>
-    <div class="flex gap-x-7 items-center mt-5">
-        <div
-            v-if="dataStore.fieldsData.user.logo != ''"
-            class="flex justify-center rounded-full"
-        >
-            <img
-                :src="dataStore.fieldsData.user.logo"
-                class="object-contain w-24 h-24 bg-white p-1 rounded-full"
-            />
-        </div>
-        <div v-else>
-            <div class="flex justify-center">
-                <div
-                    class="bg-red text-center rounded-full bg-[#2F2F2F] text-white logo-name"
-                >
-                    {{ altLogo }}
-                </div>
+    <div
+        v-if="dataStore.fieldsData.user.logo != ''"
+        class="flex justify-center mt-3 rounded-full"
+    >
+        <img
+            :src="dataStore.fieldsData.user.logo"
+            class="object-contain w-32 h-32 bg-black border-2 p-1 rounded-full"
+        />
+    </div>
+    <div v-else>
+        <div class="flex justify-center">
+            <div
+                class="bg-red text-center mt-3 rounded-full bg-black text-white flex justify-center items-center w-32 h-32 font-bold border-4 text-4xl uppercase"
+            >
+                {{ altLogo }}
             </div>
         </div>
+    </div>
+
+    <div class="flex justify-center items-center mt-3">
         <button
             type="button"
-            class="bg-blue-900 hover:bg-blue-500 px-7 py-3 rounded-full text-white text-sm transition duration-150 ease-in-out"
+            class="bg-orange-700 hover:bg-orange-600 font-bold px-7 py-3 rounded-lg text-white text-sm transition duration-150 ease-in-out"
             data-bs-toggle="modal"
             data-bs-target="#logoUploadModal"
         >
-            Upload logo
+            Upload
         </button>
-        <button
-            type="button"
-            class="bg-violet-200 hover:bg-blue-700 px-7 py-3 rounded-full text-white text-sm transition duration-150 ease-in-out"
+        <p
+            class="ml-3 cursor-pointer text-red-600 text-2xl rounded-full transition duration-150 ease-in-out"
             v-if="dataStore.fieldsData.user.logo != ''"
             @click="dataStore.fieldsData.user.logo = ''"
         >
-            Remove logo
-        </button>
+            <font-awesome-icon icon="fa-regular fa-circle-xmark" />
+        </p>
     </div>
 
     <!-- Modal -->
@@ -55,7 +55,7 @@
                         class="text-xl font-medium leading-normal text-gray-800"
                         id="logoUploadModalLabel"
                     >
-                        Upload Logo
+                        Upload Profile
                     </h5>
                     <button
                         type="button"
@@ -69,12 +69,12 @@
                         <img
                             v-if="dataStore.fieldsData.user.logo"
                             :src="dataStore.fieldsData.user.logo"
-                            class="object-contain w-24 h-24 bg-white p-1 rounded-full"
+                            class="object-contain w-48 h-48 bg-white p-1 rounded-lg"
                         />
                     </div>
 
                     <input
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                        class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:outline-none"
                         type="file"
                         @change="dataStore.changeLogo($event)"
                     />
@@ -92,17 +92,17 @@ const dataStore = useDataStore();
 
 const altLogo = computed(() => {
     let logo = "";
-    let shopName = dataStore.fieldsData.user.name;
-    shopName = shopName.split(" ");
+    let userName = dataStore.fieldsData.user.name;
+    userName = userName.split(" ");
 
-    if (shopName.length == 1) {
-        // logo = shopName[0][0].toUpperCase();
-        logo = shopName[0][0];
+    if (userName.length == 1) {
+        // logo = userName[0][0].toUpperCase();
+        logo = userName[0][0];
 
         // logo = logo.toUpperCase();
     } else {
         for (let i = 0; i < 2; i++) {
-            logo += shopName[i][0].toUpperCase();
+            logo += userName[i][0].toUpperCase();
         }
     }
     return logo;
