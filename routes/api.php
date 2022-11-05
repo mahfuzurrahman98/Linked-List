@@ -47,11 +47,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // get routes
 Route::get('/get-user/{username}', [UserController::class, 'show']);
-Route::get('/get-theme/{id}', [FieldController::class, 'getTheme']);
-Route::get('/get-links/{id}', [FieldController::class, 'getLinks']);
-Route::get('/get-image-gallery/{id}', [FieldController::class, 'getImageGallery']);
-Route::get('/get-images/{id}', [FieldController::class, 'getImages']);
-Route::get('/get-videos/{id}', [FieldController::class, 'getVideos']);
-Route::get('/get-contacts/{id}', [FieldController::class, 'getContacts']);
-Route::get('/get-emails/{id}', [FieldController::class, 'getEmails']);
-Route::get('/get-fields/{id}', [FieldController::class, 'getFields']);
+Route::get('/get-theme/{username}', [FieldController::class, 'getTheme']);
+Route::get('/get-links/{username}', [FieldController::class, 'getLinks']);
+Route::get('/get-image-gallery/{username}', [FieldController::class, 'getImageGallery']);
+Route::get('/get-images/{username}', [FieldController::class, 'getImages']);
+Route::get('/get-videos/{username}', [FieldController::class, 'getVideos']);
+Route::get('/get-contacts/{username}', [FieldController::class, 'getContacts']);
+Route::get('/get-emails/{username}', [FieldController::class, 'getEmails']);
+Route::get('/get-fields/{username}', [FieldController::class, 'getFields']);

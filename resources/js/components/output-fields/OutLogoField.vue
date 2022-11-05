@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="dataStore.fieldsData.user.logo != ''"
-        class="flex justify-center mt-3 rounded-full"
+        class="flex justify-center rounded-full"
     >
         <img
             :src="dataStore.fieldsData.user.logo"

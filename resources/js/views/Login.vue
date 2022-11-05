@@ -1,4 +1,5 @@
 <template>
+    <NavBar />
     <div class="flex items-center justify-center min-h-screen bg-gray-100">
         <div
             class="px-12 py-6 text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3 rounded-lg"
@@ -80,6 +81,7 @@ import axios from "axios";
 import { reactive } from "vue";
 import { useRouter } from "vue-router"
 import { useDataStore } from "../stores";
+import NavBar from "../components/NavBar.vue";
 
 const credentials = reactive({
     email: "",

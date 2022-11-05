@@ -22,15 +22,16 @@ import OutNameField from "../components/output-fields/OutNameField.vue";
 import OutVideoField from "../components/output-fields/OutVideoField.vue";
 
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 export const useDataStore = defineStore("data", {
     state: () => ({
         token: "",
         user: {},
         userAuthenticated: false,
-        userId: 19,
         fields: [],
         refData: {
+            tempUserName: "",
             uploadedLogo: "",
             uploadedImage: "",
             uploadedImages: [],
@@ -210,132 +211,6 @@ export const useDataStore = defineStore("data", {
         selectTab(tab) {
             this.fieldsData.selectedTab = tab;
         },
-        async getData() {
-            // console.log("api/" + "get-theme/" + this.user.id);
-            // return;
-            let url = "";
-
-            // get user data
-            url = "api/get-user/" + this.user.username;
-            try {
-                let data = await axios.get(url);
-                this.fieldsData.user = data.data;
-                console.log("user: ", data.data);
-            } catch (error) {
-                alert(error);
-            }
-
-            // get style
-            url = "api/get-theme/" + this.user.id;
-            try {
-                let data = await axios.get(url);
-                data = JSON.parse(data.data.json);
-                this.fieldsData.style = data;
-            } catch (error) {
-                // alert("sdfsdfsadf");
-            }
-
-            // get links
-            url = "api/get-links/" + this.user.id;
-            try {
-                let data = await axios.get(url);
-                data = data.data;
-
-                let tempLinks = [];
-                data.forEach((link, index) => {
-                    tempLinks[link.props_id] = {
-                        propsId: link.props_id,
-                        title: link.title,
-                        value: link.value,
-                    };
-                });
-                console.log("links: ", tempLinks);
-                this.fieldsData.links = tempLinks;
-            } catch (error) {
-                alert("error links");
-            }
-
-            // get images
-            url = "api/get-images/" + this.user.id;
-            try {
-                let data = await axios.get(url);
-                data = data.data;
-
-                let tempImages = [];
-                data.forEach((image, index) => {
-                    tempImages[image.props_id] = {
-                        propsId: image.props_id,
-                        title: image.title,
-                        value: image.value,
-                    };
-                });
-                this.fieldsData.images = tempImages;
-            } catch (error) {
-                alert(error);
-            }
-
-            // get videos
-            url = "api/get-videos/" + this.user.id;
-            try {
-                let data = await axios.get(url);
-                data = data.data;
-
-                let tempVideos = [];
-                data.forEach((video, index) => {
-                    tempVideos[video.props_id] = {
-                        propsId: video.props_id,
-                        title: video.title,
-                        value: video.value,
-                    };
-                });
-                this.fieldsData.videos = tempVideos;
-            } catch (error) {
-                alert(error);
-            }
-
-            // get contacts
-            url = "api/get-contacts/" + this.user.id;
-            try {
-                let data = await axios.get(url);
-                data = data.data;
-
-                let tempContacts = [];
-                data.forEach((contact, index) => {
-                    tempContacts[contact.props_id] = {
-                        propsId: contact.props_id,
-                        value: contact.value,
-                    };
-                });
-                console.log("contacts: ", tempContacts);
-                this.fieldsData.contacts = tempContacts;
-            } catch (error) {
-                alert(error);
-            }
-
-            // get fields
-            url = "api/get-fields/" + this.user.id;
-            try {
-                let data = await axios.get(url);
-                data = data.data;
-                let tempFields = [];
-                data.forEach((field, index) => {
-                    tempFields.push({
-                        typeId: parseInt(field.type),
-                        propsId: parseInt(field.props_id),
-                        inp: this.refData.fieldsTypeMap[parseInt(field.type)]
-                            .inp,
-                        out: this.refData.fieldsTypeMap[parseInt(field.type)]
-                            .out,
-                        active: parseInt(field.active),
-                        deleted: parseInt(field.deleted),
-                    });
-                });
-                this.fields = tempFields;
-                console.log("tmpff", tempFields);
-            } catch (error) {
-                alert("err");
-            }
-        },
         checkEmptyField() {
             // 0 for empty field, -1 for invalid video link, 1 for ok
             console.log("check empty callled: ", this.fieldsData.style);
@@ -431,6 +306,151 @@ export const useDataStore = defineStore("data", {
                 }
             }
         },
+        async getData(username) {
+            let url = "";
+
+            // get user data
+            url = "api/get-user/" + username;
+            try {
+                let data = await axios.get(url);
+                this.fieldsData.user = data.data;
+                // console.log("user: ", data.data);
+            } catch (error) {
+                console.log(error);
+                return;
+            }
+
+            // get style
+            url = "api/get-theme/" + username;
+            try {
+                let data = await axios.get(url);
+                data = data.data;
+                console.log("style: ", data)
+                if (!data.success) {
+                    console.log("nai")
+                    this.fieldsData.style = {
+                        color: "#000",
+                        bgColorType: "solid",
+                        bgColor: {
+                            color1: "#FFF9F3",
+                            color2: "#d71414",
+                        },
+                        fontFamily: "ubuntu",
+                    }
+                } else {
+                    this.fieldsData.style = JSON.parse(data.json);
+                }
+            } catch (error) {
+                console.log(error);
+                return;
+            }
+
+            // get links
+            url = "api/get-links/" + username;
+            try {
+                let data = await axios.get(url);
+                data = data.data;
+
+                let tempLinks = [];
+                data.forEach((link, index) => {
+                    tempLinks[link.props_id] = {
+                        propsId: link.props_id,
+                        title: link.title,
+                        value: link.value,
+                    };
+                });
+                // console.log("links: ", tempLinks);
+                this.fieldsData.links = tempLinks;
+            } catch (error) {
+                console.log(error);
+                return;
+            }
+
+            // get images
+            url = "api/get-images/" + username;
+            try {
+                let data = await axios.get(url);
+                data = data.data;
+
+                let tempImages = [];
+                data.forEach((image, index) => {
+                    tempImages[image.props_id] = {
+                        propsId: image.props_id,
+                        title: image.title,
+                        value: image.value,
+                    };
+                });
+                this.fieldsData.images = tempImages;
+            } catch (error) {
+                console.log(error);
+                return;
+            }
+
+            // get videos
+            url = "api/get-videos/" + username;
+            try {
+                let data = await axios.get(url);
+                data = data.data;
+
+                let tempVideos = [];
+                data.forEach((video, index) => {
+                    tempVideos[video.props_id] = {
+                        propsId: video.props_id,
+                        title: video.title,
+                        value: video.value,
+                    };
+                });
+                this.fieldsData.videos = tempVideos;
+            } catch (error) {
+                console.log(error);
+                return;
+            }
+
+            // get contacts
+            url = "api/get-contacts/" + username;
+            try {
+                let data = await axios.get(url);
+                data = data.data;
+
+                let tempContacts = [];
+                data.forEach((contact, index) => {
+                    tempContacts[contact.props_id] = {
+                        propsId: contact.props_id,
+                        value: contact.value,
+                    };
+                });
+                // console.log("contacts: ", tempContacts);
+                this.fieldsData.contacts = tempContacts;
+            } catch (error) {
+                console.log(error);
+                return;
+            }
+
+            // get fields
+            url = "api/get-fields/" + username;
+            try {
+                let data = await axios.get(url);
+                data = data.data;
+                let tempFields = [];
+                data.forEach((field, index) => {
+                    tempFields.push({
+                        typeId: parseInt(field.type),
+                        propsId: parseInt(field.props_id),
+                        inp: this.refData.fieldsTypeMap[parseInt(field.type)]
+                            .inp,
+                        out: this.refData.fieldsTypeMap[parseInt(field.type)]
+                            .out,
+                        active: parseInt(field.active),
+                        deleted: parseInt(field.deleted),
+                    });
+                });
+                this.fields = tempFields;
+                // console.log("tmpff", tempFields);
+            } catch (error) {
+                console.log(error);
+                return;
+            }
+        },
         async postData() {
             console.log("delete index: ", this.refData.deletedFieldIndex);
 
@@ -451,7 +471,7 @@ export const useDataStore = defineStore("data", {
             try {
                 let resp = await axios.post(url, data);
             } catch (error) {
-                alert(error);
+                console.log(error);
                 return;
             }
 
@@ -461,7 +481,7 @@ export const useDataStore = defineStore("data", {
                 let resp = await axios.put(url, this.fieldsData.style);
                 console.log(resp);
             } catch (error) {
-                alert(error);
+                console.log(error);
                 return;
             }
 
@@ -475,7 +495,7 @@ export const useDataStore = defineStore("data", {
                 });
                 console.log(resp);
             } catch (error) {
-                alert(error);
+                console.log(error);
                 return;
             }
 
@@ -489,7 +509,7 @@ export const useDataStore = defineStore("data", {
                 });
                 console.log(resp);
             } catch (error) {
-                alert(error);
+                console.log(error);
                 return;
             }
 
@@ -503,7 +523,7 @@ export const useDataStore = defineStore("data", {
                 });
                 console.log(resp);
             } catch (error) {
-                alert(error);
+                console.log(error);
                 return;
             }
 
@@ -517,7 +537,7 @@ export const useDataStore = defineStore("data", {
                 });
                 console.log(resp);
             } catch (error) {
-                alert(error);
+                console.log(error);
                 return;
             }
 
@@ -531,7 +551,7 @@ export const useDataStore = defineStore("data", {
                 });
                 console.log(resp);
             } catch (error) {
-                alert(error);
+                console.log(error);
                 return;
             }
 
@@ -545,7 +565,7 @@ export const useDataStore = defineStore("data", {
                 });
                 console.log(resp);
             } catch (error) {
-                alert(error);
+                console.log(error);
                 return;
             }
             this.refData.successMessage = "Successfully updated!";
@@ -557,7 +577,7 @@ export const useDataStore = defineStore("data", {
                 data = data.data;
                 this.fieldsData.uploadedImages = data;
             } catch (error) {
-                alert(error);
+                console.log(error);
                 return;
             }
         },
@@ -571,7 +591,7 @@ export const useDataStore = defineStore("data", {
                 console.log(resp);
                 this.getAllImages();
             } catch (error) {
-                alert(error);
+                console.log(error);
                 return;
             }
         },

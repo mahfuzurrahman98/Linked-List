@@ -8,7 +8,7 @@
         </div>
         <div>
             <a
-                :href="'mailto:' + dataStore.fieldsData.links[propsId].value"
+                :href="dataStore.fieldsData.links[propsId].value"
                 target="blank"
             >
                 {{ dataStore.fieldsData.links[propsId].title }}

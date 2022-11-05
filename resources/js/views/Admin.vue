@@ -1,4 +1,5 @@
 <template>
+    <NavBar />
     <div class="grid grid-cols-3 gap-x-3">
         <div class="col-span-3 lg:col-span-2">
             <Editor />
@@ -14,10 +15,11 @@ import { onBeforeMount } from "vue";
 import Editor from "../components/Editor.vue";
 import Output from "../components/Output.vue";
 import { useDataStore } from "../stores";
+import NavBar from "../components/NavBar.vue";
 
 const dataStore = useDataStore();
 
 onBeforeMount(() => {
-    dataStore.getData();
+    dataStore.getData(dataStore.user.username);
 });
 </script>

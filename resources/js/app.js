@@ -28,7 +28,7 @@ const dataStore = useDataStore();
 
 window.onload = function () {
     // persist the sate
-    console.log("window loaded", dataStore.user);
+    // console.log("window loaded", dataStore.user);
     if (
         dataStore.token != "" &&
         dataStore.userAuthenticated &&

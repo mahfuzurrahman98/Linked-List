@@ -5,6 +5,7 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import UserProfile from "../views/UserProfile.vue";
+import PageNotFound from "../views/PageNotFound.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,16 +44,19 @@ const router = createRouter({
             name: "user-profile",
             component: UserProfile
         },
+        {
+            path: "/:pathMatch(.*)*",
+            name: "page-not-found",
+            component: PageNotFound
+        },
     ],
 });
 
 // route middlewares
 router.beforeEach((to, from, next) => {
     const dataStore = useDataStore();
-    // console.log(dataStore.user);
-    // console.log(to.name);
 
-    if ("meta" in to && "auth" in to.meta) {
+    if (to.name != "page-not-found" && ("meta" in to && "auth" in to.meta)) {
         // this route has auth
         if (to.meta.auth) {
             // user must be authenticated

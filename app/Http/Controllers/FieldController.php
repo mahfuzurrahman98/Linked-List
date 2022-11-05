@@ -9,53 +9,72 @@ use Illuminate\Support\Str;
 class FieldController extends Controller {
     protected $imagePath = 'uploads/field_images/';
 
-    public function getTheme($id) {
+    public function getTheme($username) {
         $style = DB::table('themes')
-            ->where('user_id', '=', $id)
-            ->first('json');
+            ->join('users', 'themes.user_id', 'users.id')
+            ->where('username', '=', $username)
+            ->first();
 
-        return $style;
+        if (empty($style)) {
+          $response = [
+            'success' => false,
+            'message' => 'style not found'
+          ];
+          return response()->json($response, 200);
+        }
+        $response = [
+          'success' => true,
+          'json' => $style->json
+        ];
+        return response()->json($response, 200);
     }
 
-    public function getLinks($id) {
+    public function getLinks($username) {
         return DB::table('links')
-            ->where('user_id', '=', $id)
+            ->join('users', 'links.user_id', 'users.id')
+            ->where('users.username', '=', $username)
             ->get();
     }
 
-    public function getImageGallery($id) {
+    public function getImageGallery($username) {
         return DB::table('image_gallery')
-            ->where('user_id', '=', $id)
+            ->join('users', 'image_gallery.user_id', 'users.id')
+            ->where('users.username', '=', $username)
             ->get();
     }
 
-    public function getImages($id) {
+    public function getImages($username) {
         return DB::table('images')
-            ->where('user_id', '=', $id)
+            ->join('users', 'images.user_id', 'users.id')
+            ->where('users.username', '=', $username)
             ->get();
     }
 
-    public function getContacts($id) {
+    public function getContacts($username) {
         return DB::table('contacts')
-            ->where('user_id', '=', $id)
+            ->join('users', 'contacts.user_id', 'users.id')
+            ->where('users.username', '=', $username)
             ->get();
     }
 
-    public function getVideos($id) {
+    public function getVideos($username) {
         return DB::table('videos')
-            ->where('user_id', '=', $id)
+            ->join('users', 'videos.user_id', 'users.id')
+            ->where('users.username', '=', $username)
             ->get();
     }
 
-    public function getEmails($id) {
+    public function getEmails($username) {
         return DB::table('emails')
-            ->where('user_id', '=', $id)
+            ->join('users', 'emails.user_id', 'users.id')
+            ->where('users.username', '=', $username)
             ->get();
     }
 
-    public function getFields($id) {
+    public function getFields($username) {
         return DB::table('fields')
-            ->where('user_id', '=', $id)
+            ->join('users', 'fields.user_id', 'users.id')
+            ->where('users.username', '=', $username)
             ->orderBy('position_id')
             ->get();
     }
