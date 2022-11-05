@@ -26,16 +26,19 @@ class UserController extends Controller {
     }
 
     public function update(Request $req, $id) {
+        // return $req->all();
         $user = User::find($id);
         // return $user;
 
         $user->name = $req->name;
-        $user->bio = $req->bio;
+        $user->bio = $req->bio? $req->bio: '';
 
         if ($req->hasFile('u_logo')) {
             $uuid = Str::uuid()->toString();
             $req->u_logo->move(public_path($this->imagePath), $uuid . '_img.png');
             $user->logo = $this->imagePath . $uuid . '_img.png';
+        } else {
+          $user->logo = '';
         }
         $user->save();
     }

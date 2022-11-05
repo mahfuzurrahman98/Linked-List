@@ -1,5 +1,5 @@
 <template>
-    <div class="py-3 px-3 h-100 flex justify-center" :style="{
+    <div class="h-screen py-3 px-3 h-100 flex justify-center" :style="{
         color: dataStore.fieldsData.color,
         background: background,
         fontFamily: dataStore.fieldsData.style.fontFamily,
@@ -39,6 +39,11 @@ const sendProps = (fieldId) => {
         propsId: dataStore.fields[fieldId].propsId,
     };
 };
+
+onBeforeMount(() => {
+  console.log(dataStore.user.username)
+  document.title = dataStore.user.username;
+});
 
 const background = computed(() => {
     return dataStore.fieldsData.style.bgColorType == "solid" ?

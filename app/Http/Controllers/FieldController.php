@@ -79,6 +79,7 @@ class FieldController extends Controller {
     }
 
     public function uploadImage(Request $req, $id) {
+        // return $req->all();
         if ($req->hasFile('u_image')) {
             $uuid = Str::uuid()->toString();
             $req->u_image->move(public_path($this->imagePath), $uuid . '_img.png');
@@ -90,60 +91,23 @@ class FieldController extends Controller {
     }
 
     public function updateTheme(Request $req, $id) {
-        $json = $req->all();
+        $json = $req->json;
 
         DB::table('themes')
-            ->where('user_id', $id)
-            ->update(
+            ->updateOrInsert(
+                ['user_id' => $id],
                 ['json' => $json]
             );
-        return "updated";
     }
 
     public function updateLinks(Request $req, $id) {
         $links = $req->all();
-        var_dump($links);
 
         foreach ($links as $key => $link) {
             DB::table('links')
                 ->updateOrInsert(
                     ['user_id' => $link['userId'], 'props_id' => $link['propsId']],
                     ['title' => $link['title'], 'value' => $link['value']]
-                );
-        }
-    }
-
-    public function updateVideos(Request $req, $id) {
-        // return $req;
-        $videos = $req->all();
-        foreach ($videos as $key => $video) {
-            DB::table('videos')
-                ->updateOrInsert(
-                    ['user_id' => $video['userId'], 'props_id' => $video['propsId']],
-                    ['title' => $video['title'], 'value' => $video['value']]
-                );
-        }
-    }
-
-    public function updateContacts(Request $req, $id) {
-        // return $req;
-        $contacts = $req->all();
-        foreach ($contacts as $key => $contact) {
-            DB::table('contacts')
-                ->updateOrInsert(
-                    ['user_id' => $contact['userId'], 'props_id' => $contact['propsId']],
-                    ['value' => $contact['value']]
-                );
-        }
-    }
-
-    public function updateEmails(Request $req, $id) {
-        $emails = $req->all();
-        foreach ($emails as $key => $email) {
-            DB::table('emails')
-                ->updateOrInsert(
-                    ['user_id' => $email['userId'], 'props_id' => $email['propsId']],
-                    ['title' => $email['title'], 'value' => $email['value']]
                 );
         }
     }
@@ -156,6 +120,42 @@ class FieldController extends Controller {
                 ->updateOrInsert(
                     ['user_id' => $image['userId'], 'props_id' => $image['propsId']],
                     ['title' => $image['title'], 'value' => $image['value']]
+                );
+        }
+    }
+
+    public function updateVideos(Request $req, $id) {
+        $videos = $req->all();
+
+        foreach ($videos as $key => $video) {
+            DB::table('videos')
+                ->updateOrInsert(
+                    ['user_id' => $video['userId'], 'props_id' => $video['propsId']],
+                    ['title' => $video['title'], 'value' => $video['value']]
+                );
+        }
+    }
+
+    public function updateContacts(Request $req, $id) {
+        $contacts = $req->all();
+
+        foreach ($contacts as $key => $contact) {
+            DB::table('contacts')
+                ->updateOrInsert(
+                    ['user_id' => $contact['userId'], 'props_id' => $contact['propsId']],
+                    ['value' => $contact['value']]
+                );
+        }
+    }
+
+    public function updateEmails(Request $req, $id) {
+        $emails = $req->all();
+
+        foreach ($emails as $key => $email) {
+            DB::table('emails')
+                ->updateOrInsert(
+                    ['user_id' => $email['userId'], 'props_id' => $email['propsId']],
+                    ['title' => $email['title'], 'value' => $email['value']]
                 );
         }
     }

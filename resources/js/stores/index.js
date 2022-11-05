@@ -82,10 +82,10 @@ export const useDataStore = defineStore("data", {
             user: {},
             style: {
                 color: "#000",
-                bgColorType: "solid",
+                bgColorType: "gradient",
                 bgColor: {
-                    color1: "#FFF9F3",
-                    color2: "#d71414",
+                    color1: "#ffffff",
+                    color2: "#362b2b",
                 },
                 fontFamily: "ubuntu",
             },
@@ -474,7 +474,8 @@ export const useDataStore = defineStore("data", {
             }
         },
         async postData() {
-            console.log("delete index: ", this.refData.deletedFieldIndex);
+            // console.log(JSON.stringify(this.fieldsData.style));
+            // return;
 
             this.checkEmptyField();
 
@@ -500,7 +501,7 @@ export const useDataStore = defineStore("data", {
             // put style
             url = "api/update-theme/" + this.user.id;
             try {
-                let resp = await axios.put(url, this.fieldsData.style);
+                let resp = await axios.put(url, {json: JSON.stringify(this.fieldsData.style)});
                 console.log(resp);
             } catch (error) {
                 console.log(error);

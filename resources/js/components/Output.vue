@@ -1,10 +1,11 @@
 <template>
-    <div>
-      <a :href="'/' + dataStore.user.username">
+    <div class="text-center mt-3">
+      My linkedlist: <a class="text-blue-600" :href="'/' + dataStore.user.username" target="blank">
             https://linked.list/{{ dataStore.user.username }}
+
       </a>
     </div>
-    <div class="md:w-[300px] h-screen md:h-[620px] mx-auto border-[7px] border-black rounded-[32px] px-3 items-center overflow-y-auto no-scrollbar py-2 mt-5" :style="{
+    <div class="md:w-[300px] h-screen md:h-[620px] mx-auto border-[3px] border-gray-600 rounded-[32px] px-3 items-center overflow-y-auto no-scrollbar py-2 mt-5" :style="{
             color: dataStore.fieldsData.color,
             background: background,
             fontFamily: dataStore.fieldsData.style.fontFamily,
@@ -18,7 +19,7 @@
     </div>
 </template>
 <script setup>
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useDataStore } from "../stores";
 
 const dataStore = useDataStore();

@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/update-user/{id}', [UserController::class, 'update']);
     Route::put('/update-theme/{id}', [FieldController::class, 'updateTheme']);
     Route::put('/update-links/{id}', [FieldController::class, 'updateLinks']);
-    Route::post('/upload-image/ {id}', [FieldController::class, 'uploadImage']);
+    Route::post('/upload-image/{id}', [FieldController::class, 'uploadImage']);
     Route::post('/update-images/{id}', [FieldController::class, 'updateImages']);
     Route::put('/update-videos/{id}', [FieldController::class, 'updateVideos']);
     Route::put('/update-contacts/{id}', [FieldController::class, 'updateContacts']);
