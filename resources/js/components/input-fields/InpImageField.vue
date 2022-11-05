@@ -75,7 +75,7 @@
                     @change="dataStore.changeImageUploaded($event)"
                 />
                 <div class="modal-body relative p-4 mt-3">
-                    <div class="flex flex-wrap gap-3 mb-3">
+                    <div class="flex flex-wrap justify-center gap-3 mb-3">
                         <div
                             v-for="(image, index) in dataStore.fieldsData
                                 .uploadedImages"
@@ -86,7 +86,7 @@
                                     index ==
                                     dataStore.refData.currentSelectedImage
                                         ? 'border-2 border-orange-600 rounded p-0.5'
-                                        : ''
+                                        : 'border-2 border-gray-200 rounded'
                                 "
                                 @click="selectImage(index)"
                             >

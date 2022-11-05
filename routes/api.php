@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/update-user/{id}', [UserController::class, 'update']);
     Route::put('/update-theme/{id}', [FieldController::class, 'updateTheme']);
     Route::put('/update-links/{id}', [FieldController::class, 'updateLinks']);
-    Route::post('/upload-image/{id}', [FieldController::class, 'uploadImage']);
+    Route::post('/upload-image/ {id}', [FieldController::class, 'uploadImage']);
     Route::post('/update-images/{id}', [FieldController::class, 'updateImages']);
     Route::put('/update-videos/{id}', [FieldController::class, 'updateVideos']);
     Route::put('/update-contacts/{id}', [FieldController::class, 'updateContacts']);
@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/get-user/{username}', [UserController::class, 'show']);
 Route::get('/get-theme/{username}', [FieldController::class, 'getTheme']);
 Route::get('/get-links/{username}', [FieldController::class, 'getLinks']);
-Route::get('/get-image-gallery/{username}', [FieldController::class, 'getImageGallery']);
+Route::get('/get-image-gallery/{id}', [FieldController::class, 'getImageGallery']);
 Route::get('/get-images/{username}', [FieldController::class, 'getImages']);
 Route::get('/get-videos/{username}', [FieldController::class, 'getVideos']);
 Route::get('/get-contacts/{username}', [FieldController::class, 'getContacts']);

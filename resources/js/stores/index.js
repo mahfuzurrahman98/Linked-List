@@ -191,10 +191,11 @@ export const useDataStore = defineStore("data", {
         formattedEmails() {
             const emailsData = [];
             this.fieldsData.emails.forEach((email, index) => {
-                if (email.value != "") {
+                if (email.title !="" && email.value != "") {
                     emailsData.push({
                         userId: this.user.id,
                         propsId: index,
+                        title: email.title,
                         value: email.value,
                     });
                 }
@@ -421,6 +422,27 @@ export const useDataStore = defineStore("data", {
                 });
                 // console.log("contacts: ", tempContacts);
                 this.fieldsData.contacts = tempContacts;
+            } catch (error) {
+                console.log(error);
+                return;
+            }
+
+            // get emails
+            url = "api/get-emails/" + username;
+            try {
+                let data = await axios.get(url);
+                data = data.data;
+
+                let tempEmails = [];
+                data.forEach((email, index) => {
+                    tempEmails[email.props_id] = {
+                        propsId: email.props_id,
+                        title: email.title,
+                        value: email.value,
+                    };
+                });
+                console.log("emails: ", tempEmails);
+                this.fieldsData.emails = tempEmails;
             } catch (error) {
                 console.log(error);
                 return;

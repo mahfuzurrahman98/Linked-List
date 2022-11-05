@@ -36,10 +36,9 @@ class FieldController extends Controller {
             ->get();
     }
 
-    public function getImageGallery($username) {
+    public function getImageGallery($id) {
         return DB::table('image_gallery')
-            ->join('users', 'image_gallery.user_id', 'users.id')
-            ->where('users.username', '=', $username)
+            ->where('user_id', '=', $id)
             ->get();
     }
 
