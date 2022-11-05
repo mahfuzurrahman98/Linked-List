@@ -78,8 +78,7 @@
 <script setup>
 import axios from "axios";
 import { reactive } from "vue";
-import { useRouter } from "vue-router";
-
+import { useRouter } from "vue-router"
 import { useDataStore } from "../stores";
 
 const credentials = reactive({
@@ -96,12 +95,12 @@ const getUserData = async () => {
         console.log(resp);
         if (resp.status == 200) {
             dataStore.userAuthenticated = true;
-            localStorage.setItem("userAuthenticated", true);
-
             dataStore.user = resp.data;
+
+            localStorage.setItem("userAuthenticated", true);
             localStorage.setItem("user", JSON.stringify(resp.data));
 
-            router.push({ path: "/admin" });
+            router.push({ name: "admin" });
         }
     } catch (err) {
         console.log(err);
